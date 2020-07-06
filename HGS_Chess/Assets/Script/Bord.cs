@@ -34,8 +34,19 @@ public class Bord : MonoBehaviour
     };
     void Start()
     {
-        //Bordの生成
-        for(int i = 0; i <Chessbord.GetLength(0); i++)
+        MapCreate();
+        
+    }
+   
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape)) Quit();
+    }
+
+    //マップ生成
+    void MapCreate()
+    {
+        for (int i = 0; i < Chessbord.GetLength(0); i++)
         {
             for (int j = 0; j < Chessbord.GetLength(1); j++)
             {
@@ -58,14 +69,11 @@ public class Bord : MonoBehaviour
             }
         }
     }
+
     //ゲーム終了
     void Quit()
     {
         UnityEditor.EditorApplication.isPlaying = false;
         UnityEngine.Application.Quit();
-    }
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.Escape)) Quit();
     }
 }

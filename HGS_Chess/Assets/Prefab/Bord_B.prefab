@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2813939630802601098}
   - component: {fileID: 7966014587316844318}
   - component: {fileID: 8620509008564137839}
+  - component: {fileID: -2878607133646385980}
   m_Layer: 0
   m_Name: Bord_B
   m_TagString: Untagged
@@ -93,3 +94,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2878607133646385980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9024092373244585714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f01f7ca48c89a47a408410ec8ef822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectflg: 0

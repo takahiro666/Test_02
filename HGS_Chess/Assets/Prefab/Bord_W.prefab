@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3965822970557651990}
   - component: {fileID: 6680398903242124143}
   - component: {fileID: 9053707631399601233}
+  - component: {fileID: 8532082566123991901}
   - component: {fileID: 3877363193597480973}
   m_Layer: 0
   m_Name: Bord_W
@@ -80,6 +81,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &8532082566123991901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180306612650380341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56f01f7ca48c89a47a408410ec8ef822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectflg: 0
 --- !u!65 &3877363193597480973
 BoxCollider:
   m_ObjectHideFlags: 0
