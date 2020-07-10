@@ -15,8 +15,7 @@ public class Bord : MonoBehaviour
     public GameObject Queen;
     public GameObject King;
     //public GameObject Wall_b;
-    public bool select_flg;
-    public int[,] Chessbord = new int[10, 10]
+    public int[,] Chessbord = new int[10, 10]   //基盤
     {
         {2,2,2,2,2,2,2,2,2,2},
         {2,0,1,0,1,0,1,0,1,2},
@@ -29,7 +28,7 @@ public class Bord : MonoBehaviour
         {2,1,0,1,0,1,0,1,0,2},
         {2,2,2,2,2,2,2,2,2,2},
     };
-    public int[,] Picecre = new int[10, 10]
+    public int[,] Picecre = new int[10, 10] //駒
     {
         {1,1,1,1,1,1,1,1,1,1 },
         {1,5,3,4,6,7,4,3,5,1 },
@@ -55,7 +54,7 @@ public class Bord : MonoBehaviour
     }
 
     //マップ生成
-    void MapCreate()
+    void MapCreate()  //盤面生成
     {
         for (int i = 0; i < Chessbord.GetLength(0); i++)
         {
@@ -89,32 +88,32 @@ public class Bord : MonoBehaviour
                 if (Picecre[i, j] == 2)     //ポーン
                 {
                     Instantiate(Pown, new Vector3(i, 1, j), Quaternion.identity);
-                    Pown.name = i + "-" + j.ToString();
+                    Pown.name = "ポーン"+i.ToString();
                 }
                 else if (Picecre[i, j] == 3)    //ナイト
                 {
                     Instantiate(Night, new Vector3(i, 1, j), Quaternion.identity);
-                    Night.name = i + "-" + j.ToString();
+                    Night.name = "ナイト" + i.ToString();
                 }
                 else if (Picecre[i, j] == 4)    //ビショップ
                 {
                     Instantiate(Bishop, new Vector3(i, 1, j), Quaternion.identity);
-                    Bishop.name = i + "-" + j.ToString();
+                    Bishop.name = "ビショップ" + i.ToString();
                 }
                 else if (Picecre[i, j] == 5)        //ルーク
                 {
                     Instantiate(Luke, new Vector3(i, 1, j), Quaternion.identity);
-                    Luke.name = i + "-" + j.ToString();
+                    Luke.name = "ルーク" + i.ToString();
                 }
                 else if (Picecre[i, j] == 6)    //クイーン
                 {
                     Instantiate(Queen, new Vector3(i, 1, j), Quaternion.identity);
-                    Queen.name = i + "-" + j.ToString();
+                    Queen.name = "クイーン" + i.ToString();
                 }
                  else if (Picecre[i, j] == 7)    //キング
                 {
                     Instantiate(King, new Vector3(i, 1, j), Quaternion.identity);
-                    King.name = i + "-" + j.ToString();
+                    King.name = "キング" + i.ToString();
                 }
                 else if(Picecre[i,j] ==1)
                 {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class changecolor : MonoBehaviour
 {
-    public bool selectflg;
+    public bool selectflg;      //マウスカーソルが触れたら色を変える
     
 
     //選択時に色変更
@@ -20,11 +20,11 @@ public class changecolor : MonoBehaviour
         //フラグ、色、マテリアルの初期化
         selectflg = false;
         
+        
        
         select_color = Color.yellow;
         mat = gameObject.GetComponent<Renderer>().material;
         default_color = mat.color;
-
     }
 
     // Update is called once per frame
