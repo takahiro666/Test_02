@@ -7,7 +7,7 @@ public class pice : MonoBehaviour
    
     public enum PiceType
     {
-        Pown = 2,    //ぽーん
+        Pown = 2,    //ポーン
         Night = 3,   //ナイト
         Bishop = 4,  //ビショップ
         Luke = 5,    //ルーク
@@ -26,15 +26,22 @@ public class pice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PiceSelect();
     }
 
     void PiceSelect()
     {
         switch(PICE)
         {
+
             case PiceType.Pown:
                 //  挙動の処理
+                if(Input.GetMouseButtonDown(0))
+                {
+                    // Debug.Log("A");
+                    //ポーンの行動範囲
+                   
+                }
                 break;
             case PiceType.Night:
                 break;
