@@ -16,24 +16,26 @@ public class RayA : MonoBehaviour
 
     void Update()
     {
-       
         Ray();
-        A();
+        Rayhitobj();
         //if (hit.collider.gameObject != crntHit.collider.gameObject)
         //{
         //    hit = crntHit;
         //}
     }
-    /**********************************************/
+    //=================================================================
     void Ray()
     {
+        if (!Camera.main)//メインカメラがあるかどうか
+            return;
+
         //カメラ上のマウスの位置にレイを作成
-         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //例がコライダーにあった場合情報を格納する
         Physics.Raycast(ray, out crntHit, 100f);
     }
-    /**************************************/
-    void A()
+    //===============================================================================================
+    void Rayhitobj()
     {
           
         if (Physics.Raycast(ray, out hit, 100f))
@@ -53,5 +55,5 @@ public class RayA : MonoBehaviour
             }
         }
     }  
-    /**************************************************/
+   //==================================================================================================
 }

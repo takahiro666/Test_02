@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//materialの色を変化させる
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

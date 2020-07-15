@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class pice : MonoBehaviour
 {
-   
+    public bool kingflg;//キングがいるかどうかのフラグ
     public enum PiceType
     {
         Pown = 2,    //ポーン
@@ -12,8 +12,8 @@ public class pice : MonoBehaviour
         Bishop = 4,  //ビショップ
         Luke = 5,    //ルーク
         Queen = 6,   //クイーン
-        King = 7,    //キング
-        None =-1
+        King ,    //キング
+        None
     }
 
     public PiceType PICE;
@@ -26,7 +26,12 @@ public class pice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         PiceSelect();
+        if(kingflg !=false)  //キングがいるかどうか
+        {
+
+        }
     }
 
     void PiceSelect()
@@ -56,6 +61,4 @@ public class pice : MonoBehaviour
 
         }
     }
-
-   
 }
