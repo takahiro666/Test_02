@@ -11,7 +11,6 @@ public class changecolor : MonoBehaviour
     //選択時に色変更
     private Color default_color;
     private Color select_color;
-    
 
     //色変更するオブジェクトのmaterial格納
     protected Material mat;

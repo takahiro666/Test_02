@@ -197,13 +197,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619105990}
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 4, y: 8, z: -1}
+  m_LocalRotation: {x: 0.53729963, y: 0, z: 0, w: 0.8433915}
+  m_LocalPosition: {x: 5, y: 10, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 65, y: 0, z: 0}
 --- !u!1 &1327388146
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +307,7 @@ GameObject:
   - component: {fileID: 1938829099}
   - component: {fileID: 1938829098}
   - component: {fileID: 1938829101}
+  - component: {fileID: 1938829100}
   m_Layer: 0
   m_Name: gamelot
   m_TagString: Untagged
@@ -330,18 +331,19 @@ MonoBehaviour:
   Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
   Wall_a: {fileID: 1255977278840234267, guid: 5444fdbf329e1d9458b43314951ef746, type: 3}
   chessmPrefabs:
-  - {fileID: 4175417480583254745, guid: 26ceb6b372c850a4e9c4d15956ddd49a, type: 3}
-  - {fileID: 5122723161468493036, guid: 2d178c4aaf3d8e74dbdb1f9fd3faacfc, type: 3}
-  - {fileID: 6444360707205090141, guid: b93de9e94428ef249b71268dd0b47799, type: 3}
-  - {fileID: 8267333030480829137, guid: 27e3416a759cb93458eafd41bd391be9, type: 3}
-  - {fileID: 1567026239961319162, guid: 3827b915c1af6f445a6f878cb5ef49d9, type: 3}
-  - {fileID: 8790446712080800133, guid: c01c71d50bb61c641beb50054d226fc5, type: 3}
-  - {fileID: 8954985091351560109, guid: 0c0fccb2bcf4cee47b2bc0387eae9188, type: 3}
-  - {fileID: 7825353500445151525, guid: ca5ec609a2b5b254ba06941065e0281f, type: 3}
-  - {fileID: 2657883857429646360, guid: 496961c0f534d3e42abf0eac7e22e989, type: 3}
-  - {fileID: 2980690810492352186, guid: 1fcf9fcbbbeb16842b37a26c285bde4f, type: 3}
-  - {fileID: 3406401816946864254, guid: 195bff21c990a3c4e963d4cabd95410d, type: 3}
-  - {fileID: 6043598271545811352, guid: c43484697e9d10543b0455bd00a558fb, type: 3}
+  - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
+  - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
+  - {fileID: 9116295498428441262, guid: d92f498103ae7fa4db11d9de9587f56c, type: 3}
+  - {fileID: 6859966230570683899, guid: 808f673f2abb2ac44b97ab165311d8b0, type: 3}
+  - {fileID: 5708514379104382937, guid: da3545088bdcc1c45b9889330f45c6ed, type: 3}
+  - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
+  - {fileID: 6916429866724264829, guid: 4c101c31f1057534189cc0380ffcd75f, type: 3}
+  - {fileID: 7519710893857314355, guid: 9b56d25457379c949b6719ccfabd4c1d, type: 3}
+  - {fileID: 7396984666958014045, guid: 3940511519b8b1047b42840e30a5e097, type: 3}
+  - {fileID: 8849596423311088840, guid: b0fd8ab990fda63428ab80a2bef93be3, type: 3}
+  - {fileID: 8136490959688994202, guid: 0fd14e470ed335d48b723615ae496620, type: 3}
+  - {fileID: 2336920088345116862, guid: 0e027f2d996562a449ec72b1834bd1e2, type: 3}
+  isWiteTurn: 1
 --- !u!4 &1938829099
 Transform:
   m_ObjectHideFlags: 0
@@ -356,7 +358,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1938829101
+--- !u!114 &1938829100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -364,6 +366,20 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938829097}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666966d976b2b2c41863399105a1514d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highligtPrefab: {fileID: 7393919234229531120, guid: cb93fbf124b22c64281fe82beeb3dea0,
+    type: 3}
+--- !u!114 &1938829101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938829097}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e1d2f0ea60958440bfe89629d641420, type: 3}
   m_Name: 

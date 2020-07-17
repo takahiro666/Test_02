@@ -50,7 +50,6 @@ public class RayA : MonoBehaviour
                     Vector3 ClickedGameobject = hit.collider.gameObject.transform.position;
                     Debug.Log(ClickedGameobject);
                    
-
                 }
             }
         }

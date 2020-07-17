@@ -9,11 +9,21 @@ public class Bord : MonoBehaviour
     public GameObject Bord_B;
     public GameObject Wall_a;
     //※園城追加=================================================
+    public static Bord Instance { set; get; }
+    private bool[,] allowedMoves { set; get; }
+
+    public Move[,] moves { set; get;}
+    private Move selectedChess;
     private const float TILE_SIZE = 1.0f;
-    private const float TILE_OFFSET = 1f;
+    private const float TILE_OFFSET = 1.0f;
+
+    private int selectionX = -1;
+    private int selectionY = -1;
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
     private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
+
+    public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     //=====================================================
     //public GameObject Wall_b;
     public int[,] Chessbord = new int[10, 10]   //基盤
@@ -42,18 +52,62 @@ public class Bord : MonoBehaviour
     //    {1,5,3,4,6,7,4,3,5,1 },
     //    {1,1,1,1,1,1,1,1,1,1 }
     //};
-    void Start()
+    private void Start()
     {
+        //==============
+        Instance = this;
+        //==============
         MapCreate();
         SkpawnAllChess();
     }
    
     void Update()
     {
+        UpdateSlection();
+        DrawChess();
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(selectionX>=0 &&selectionY>=0)
+            {
+                if(selectedChess == null)
+                {
+                    //チェスが選択された
+                    SelectChess(selectionX, selectionY);
+                }
+                else
+                {
+                    //駒が動かせる状態か
+                    MoveChess(selectionX, selectionY);
+                }
+            }
+        }
         if (Input.GetKey(KeyCode.Escape)) Quit();
     }
 
-    //マップ生成
+    //レイを作成しコライダーに当たったら色を変える==============================================================================
+    private void UpdateSlection()  
+    {
+        if (!Camera.main)
+            return;
+
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit,100f/*LayerMask.GetMask("ChessPlane")*/))
+        {
+            if (hit.collider.gameObject.GetComponent<changecolor>())
+            {
+                hit.collider.gameObject.GetComponent<changecolor>().selectflg = true;              
+                    selectionX = (int)hit.point.x;
+                    selectionY = (int)hit.point.z;               
+            }          
+        }
+        else
+        {
+            selectionX = -1;
+            selectionY = -1;
+        }
+    }
+    //================================================================================================================
+    //マップ生成======================================================================================================
     void MapCreate()  //盤面生成
     {
         for (int i = 0; i < Chessbord.GetLength(0); i++)
@@ -79,18 +133,65 @@ public class Bord : MonoBehaviour
             }
         }
     }
+    //駒の選択==================================================================
+    private void SelectChess(int x,int y)
+    {
+        if (moves[x, y] == null)
+            return;
+
+        if(moves[x,y].isWhite != isWiteTurn)
+            return;
+        allowedMoves = moves[x, y].PossibleMove();
+        selectedChess = moves[x, y];
+        BoarHi.Instance.HighlightAllowedMoves(allowedMoves);
+        
+    }
+
+    //選択した駒を動かす=================================================================
+    private void MoveChess(int x,int y)
+    {
+        if(allowedMoves[x,y] == true)
+        {
+            Move c = moves[x, y];
+
+            //駒を捕まえたとき
+            if (c != null && c.isWhite != isWiteTurn)
+            {                
+                //キングかどうか
+                if (c.GetType() == typeof(King))
+                {//ゲーム終了
+                    return;
+                }
+                activeChessm.Remove(c.gameObject);
+                Destroy(c.gameObject);  //消滅させる
+            }
+
+            moves[selectedChess.CurrentX, selectedChess.CurrentY] = null;
+            selectedChess.transform.position = GetTileCenter(x, y);
+            selectedChess.SetPosition(x, y);
+            moves[x, y] = selectedChess;
+            isWiteTurn = !isWiteTurn;
+            Debug.Log("黒のターン");
+        }
+
+        BoarHi.Instance.Hidehighlights();
+        selectedChess = null;
+    }
+    //=========================================================================================
     //※駒の生成===============================================================================
-    private void PiceCreat(int index,Vector3 positione)
+    private void PiceCreat(int index,int x,int y)
     {
         if(index < 6)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
         {
-            GameObject go = Instantiate(chessmPrefabs[index], positione, Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x,y), Quaternion.identity) as GameObject;
             go.transform.SetParent(transform);
+            moves[x,y] = go.GetComponent<Move>();
+            moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
         }
         else　　　
         {
-            GameObject go = Instantiate(chessmPrefabs[index], positione, orientation) as GameObject;
+            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
             go.transform.SetParent(transform);
             activeChessm.Add(go);
         }
@@ -100,56 +201,56 @@ public class Bord : MonoBehaviour
     private void SkpawnAllChess()
     {
         activeChessm = new List<GameObject>();
+        moves = new Move[10, 10];
 
         //白駒生成位置=================================================================
         //king
-        PiceCreat(0, GetTileCenter(3, 0));
+        PiceCreat(0, 3, 0);
 
         //Queen
-        PiceCreat(1, GetTileCenter(4, 0));
+        PiceCreat(1, 4, 0);
 
         //Rooks
-        PiceCreat(2, GetTileCenter(0, 0));
-        PiceCreat(2, GetTileCenter(7, 0));
+        PiceCreat(2, 0, 0);
+        PiceCreat(2, 7, 0);
 
         //Bishops
-        PiceCreat(3, GetTileCenter(2, 0));
-        PiceCreat(3, GetTileCenter(5, 0));
+        PiceCreat(3, 2, 0);
+        PiceCreat(3, 5, 0);
 
         //Night
-        PiceCreat(4, GetTileCenter(1, 0));
-        PiceCreat(4, GetTileCenter(6, 0));
+        PiceCreat(4, 1, 0);
+        PiceCreat(4, 6, 0);
 
         //Pawns
         for(int i = 0;i<8;i++)
         {
-            PiceCreat(5, GetTileCenter(i, 1));
+            PiceCreat(5, i, 1);
         }
-
 
         //黒駒生成位置======================================================
         //king
-        PiceCreat(6, GetTileCenter(3, 7));
+        PiceCreat(6, 3, 7);
 
         //Queen
-        PiceCreat(7, GetTileCenter(4, 7));
+        PiceCreat(7, 4, 7);
 
         //Rooks
-        PiceCreat(8, GetTileCenter(0, 7));
-        PiceCreat(8, GetTileCenter(7, 7));
+        PiceCreat(8, 0, 7);
+        PiceCreat(8, 7, 7);
 
         //Bishops
-        PiceCreat(9, GetTileCenter(2, 7));
-        PiceCreat(9, GetTileCenter(5, 7));
-   
+        PiceCreat(9, 2, 7);
+        PiceCreat(9, 5, 7);
+
         //Night
-        PiceCreat(10, GetTileCenter(1, 7));
-        PiceCreat(10, GetTileCenter(6, 7));
+        PiceCreat(10, 1, 7);
+        PiceCreat(10, 6, 7);
 
         //Pawns
         for (int i = 0; i < 8; i++)
         {
-            PiceCreat(11, GetTileCenter(i, 6));
+            PiceCreat(11, i, 6);
         }
     }
     //※駒を中心に乗せる======================================================================
@@ -157,9 +258,19 @@ public class Bord : MonoBehaviour
     { 
         Vector3 origin = Vector3.zero;
         origin.x += (TILE_SIZE * x) + TILE_OFFSET;
-        origin.y = 0.5f;
+        origin.y = 1f;
         origin.z += (TILE_SIZE * y) + TILE_OFFSET;
         return origin;
+    }
+
+    //自分の真進カーソルの位置を描画==========================================================
+    private void DrawChess()
+    {  
+        //if(selectionX >= 0 && selectionY >=0)
+        //{
+            Debug.DrawLine(Vector3.forward * selectionY + Vector3.right * selectionX,
+                Vector3.forward * (selectionY + 0.7f) + Vector3.right * (selectionX +0.7f));
+        //}
     }
     //ゲーム終了=============================================================================
     void Quit()
