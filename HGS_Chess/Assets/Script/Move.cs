@@ -18,6 +18,6 @@ public abstract class Move : MonoBehaviour
 
     public virtual bool[,] PossibleMove()
     {
-        return new bool[10,10];
+        return new bool[8,8];
     }
 }

@@ -26,18 +26,29 @@ public class Bord : MonoBehaviour
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     //=====================================================
     //public GameObject Wall_b;
-    public int[,] Chessbord = new int[10, 10]   //基盤
+   // public int[,] Chessbord = new int[10, 10]   //基盤
+    //{
+    //    {2,2,2,2,2,2,2,2,2,2},
+    //    {2,0,1,0,1,0,1,0,1,2},
+    //    {2,1,0,1,0,1,0,1,0,2},
+    //    {2,0,1,0,1,0,1,0,1,2},
+    //    {2,1,0,1,0,1,0,1,0,2},
+    //    {2,0,1,0,1,0,1,0,1,2},
+    //    {2,1,0,1,0,1,0,1,0,2},
+    //    {2,0,1,0,1,0,1,0,1,2},
+    //    {2,1,0,1,0,1,0,1,0,2},
+    //    {2,2,2,2,2,2,2,2,2,2},
+    //};
+    public int[,] Chessbord = new int[8,8]  //基盤8*8
     {
-        {2,2,2,2,2,2,2,2,2,2},
-        {2,0,1,0,1,0,1,0,1,2},
-        {2,1,0,1,0,1,0,1,0,2},
-        {2,0,1,0,1,0,1,0,1,2},
-        {2,1,0,1,0,1,0,1,0,2},
-        {2,0,1,0,1,0,1,0,1,2},
-        {2,1,0,1,0,1,0,1,0,2},
-        {2,0,1,0,1,0,1,0,1,2},
-        {2,1,0,1,0,1,0,1,0,2},
-        {2,2,2,2,2,2,2,2,2,2},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
     };
     //public int[,] Picecre = new int[10, 10] //駒
     //{
@@ -58,7 +69,7 @@ public class Bord : MonoBehaviour
         Instance = this;
         //==============
         MapCreate();
-        SkpawnAllChess();
+        SpawnAllChess();
     }
    
     void Update()
@@ -91,7 +102,7 @@ public class Bord : MonoBehaviour
             return;
 
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit,100f/*LayerMask.GetMask("ChessPlane")*/))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit,100f/*LayerMask.Mask("ChessPlane")*/))
         {
             if (hit.collider.gameObject.GetComponent<changecolor>())
             {
@@ -141,7 +152,14 @@ public class Bord : MonoBehaviour
 
         if(moves[x,y].isWhite != isWiteTurn)
             return;
+
+        //bool OneMove = false;
         allowedMoves = moves[x, y].PossibleMove();
+        //for (int i = 0; i <= 8; i++)
+        //    for (int j = 0; j < 8; j++)
+        //        if (allowedMoves[i, j])
+        //            OneMove = true;
+
         selectedChess = moves[x, y];
         BoarHi.Instance.HighlightAllowedMoves(allowedMoves);
         
@@ -154,12 +172,14 @@ public class Bord : MonoBehaviour
         {
             Move c = moves[x, y];
 
-            //駒を捕まえたとき
+           
             if (c != null && c.isWhite != isWiteTurn)
-            {                
+            {
+                //駒を捕まえたとき
                 //キングかどうか
                 if (c.GetType() == typeof(King))
                 {//ゲーム終了
+                    EndGmae();
                     return;
                 }
                 activeChessm.Remove(c.gameObject);
@@ -170,7 +190,7 @@ public class Bord : MonoBehaviour
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
             moves[x, y] = selectedChess;
-            isWiteTurn = !isWiteTurn;
+            //isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             Debug.Log("黒のターン");
         }
 
@@ -198,10 +218,10 @@ public class Bord : MonoBehaviour
     }
 
     //※駒の位置==========================================================================
-    private void SkpawnAllChess()
+    private void SpawnAllChess()
     {
         activeChessm = new List<GameObject>();
-        moves = new Move[10, 10];
+        moves = new Move[8, 8];
 
         //白駒生成位置=================================================================
         //king
@@ -257,9 +277,9 @@ public class Bord : MonoBehaviour
     private Vector3 GetTileCenter(int x, int y)
     { 
         Vector3 origin = Vector3.zero;
-        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET -1;
         origin.y = 1f;
-        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET -1;
         return origin;
     }
 
@@ -273,9 +293,26 @@ public class Bord : MonoBehaviour
         //}
     }
     //ゲーム終了=============================================================================
-    void Quit()
+    private void Quit()
     {
         UnityEditor.EditorApplication.isPlaying = false;
         UnityEngine.Application.Quit();
+    }
+
+    //キング取られたときのゲーム終了処理
+    private void EndGmae()
+    {
+        if (isWiteTurn)
+            Debug.Log("白チームの勝ち");
+        else
+            Debug.Log("黒チームの勝ち");
+
+        foreach (GameObject go in activeChessm)
+            Destroy(go);
+
+        //初期化
+        isWiteTurn = true;
+        BoarHi.Instance.Hidehighlights();
+        SpawnAllChess();
     }
 }

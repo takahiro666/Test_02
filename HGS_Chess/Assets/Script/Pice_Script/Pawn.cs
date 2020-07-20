@@ -6,7 +6,7 @@ public class Pawn : Move
 {
    public override bool[,] PossibleMove()
     {
-        bool[,] r = new bool[10, 10];
+        bool[,] r = new bool[8, 8];
         Move c, c2;　
 
         //白駒の動き
@@ -40,6 +40,7 @@ public class Pawn : Move
                 c2 = Bord.Instance.moves[CurrentX, CurrentY + 2];
                 if(c == null & c2 == null)
                     r[CurrentX, CurrentY + 2] = true;
+
             }
         }
         else

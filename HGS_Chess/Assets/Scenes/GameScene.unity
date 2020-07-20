@@ -198,7 +198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619105990}
   m_LocalRotation: {x: 0.53729963, y: 0, z: 0, w: 0.8433915}
-  m_LocalPosition: {x: 5, y: 10, z: 0.5}
+  m_LocalPosition: {x: 5, y: 9, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -332,7 +332,7 @@ MonoBehaviour:
   Wall_a: {fileID: 1255977278840234267, guid: 5444fdbf329e1d9458b43314951ef746, type: 3}
   chessmPrefabs:
   - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
-  - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
+  - {fileID: 1137749882404279071, guid: a8d9c1f256e15894ca2241e783474ccd, type: 3}
   - {fileID: 9116295498428441262, guid: d92f498103ae7fa4db11d9de9587f56c, type: 3}
   - {fileID: 6859966230570683899, guid: 808f673f2abb2ac44b97ab165311d8b0, type: 3}
   - {fileID: 5708514379104382937, guid: da3545088bdcc1c45b9889330f45c6ed, type: 3}
