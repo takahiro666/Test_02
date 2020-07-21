@@ -37,7 +37,7 @@ public class BoarHi : MonoBehaviour
                 {
                     GameObject go = GetHighlightObject();
                     go.SetActive(true);
-                    go.transform.position = new Vector3(i, 0.51f, j);//動ける範囲のオブジェクトを出す位置指定
+                    go.transform.position = new Vector3(i+0.5f, 0f, j+0.5f);//動ける範囲のオブジェクトを出す位置指定
                 }
             }
         }

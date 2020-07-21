@@ -43,11 +43,12 @@ public class Pawn : Move
 
             }
         }
-        else
+        else 
         {
             //黒駒の動き
             if (CurrentX != 0 && CurrentY != 0)
             {
+
                 c = Bord.Instance.moves[CurrentX - 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                     r[CurrentX - 1, CurrentY - 1] = true;
