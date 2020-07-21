@@ -8,25 +8,29 @@ public class Bord : MonoBehaviour
     public GameObject Bord_W;
     public GameObject Bord_B;
     public GameObject Wall_a;
+    public GameObject Wall_b;
     //※園城追加=================================================
     public static Bord Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
 
     public Move[,] moves { set; get;}
     private Move selectedChess;
+
     private const float TILE_SIZE = 1.0f;
-    private const float TILE_OFFSET = 1.0f;
+    private const float TILE_OFFSET = 0.5f;
 
     private int selectionX = -1;
     private int selectionY = -1;
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
+
     private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
+
+    bool hasAtleastOneMove = false;
 
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     //=====================================================
-    //public GameObject Wall_b;
-   // public int[,] Chessbord = new int[10, 10]   //基盤
+    // public int[,] Chessbord = new int[10, 10]   //基盤
     //{
     //    {2,2,2,2,2,2,2,2,2,2},
     //    {2,0,1,0,1,0,1,0,1,2},
@@ -39,18 +43,18 @@ public class Bord : MonoBehaviour
     //    {2,1,0,1,0,1,0,1,0,2},
     //    {2,2,2,2,2,2,2,2,2,2},
     //};
-    public int[,] Chessbord = new int[8,8]  //基盤8*8
-    {
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-    };
-    //public int[,] Picecre = new int[10, 10] //駒
+    //public int[,] Chessbord = new int[8, 8]  //基盤8*8
+    //{
+    //    {0,1,0,1,0,1,0,1},
+    //    {1,0,1,0,1,0,1,0},
+    //    {0,1,0,1,0,1,0,1},
+    //    {1,0,1,0,1,0,1,0},
+    //    {0,1,0,1,0,1,0,1},
+    //    {1,0,1,0,1,0,1,0},
+    //    {0,1,0,1,0,1,0,1},
+    //    {1,0,1,0,1,0,1,0},
+    //};
+    ////public int[,] Picecre = new int[10, 10] //駒
     //{
     //    {1,1,1,1,1,1,1,1,1,1 },
     //    {1,5,3,4,6,7,4,3,5,1 },
@@ -68,8 +72,9 @@ public class Bord : MonoBehaviour
         //==============
         Instance = this;
         //==============
-        MapCreate();
+        //MapCreate();
         SpawnAllChess();
+       
     }
    
     void Update()
@@ -78,7 +83,8 @@ public class Bord : MonoBehaviour
         DrawChess();
         if (Input.GetMouseButtonDown(0))
         {
-            if(selectionX>=0 &&selectionY>=0)
+            //Debug.Log(gameObject.name);
+            if(selectionX >= 0 && selectionY >= 0)
             {
                 if(selectedChess == null)
                 {
@@ -101,14 +107,19 @@ public class Bord : MonoBehaviour
         if (!Camera.main)
             return;
 
+        Vector3 pos = Input.mousePosition;
+        pos.z = 10.0f;
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        //Debug.DrawRay(ray.origin, ray.direction * 20.0f);
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit,100f/*LayerMask.Mask("ChessPlane")*/))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit,100f,LayerMask.GetMask("ChessPlane")))
         {
+            //Debug.Log(hit.point);
+            selectionX = (int)hit.point.x;
+            selectionY = (int)hit.point.z;
             if (hit.collider.gameObject.GetComponent<changecolor>())
-            {
-                hit.collider.gameObject.GetComponent<changecolor>().selectflg = true;              
-                    selectionX = (int)hit.point.x;
-                    selectionY = (int)hit.point.z;               
+            {     
+                hit.collider.gameObject.GetComponent<changecolor>().selectflg = true;                                
             }          
         }
         else
@@ -119,31 +130,31 @@ public class Bord : MonoBehaviour
     }
     //================================================================================================================
     //マップ生成======================================================================================================
-    void MapCreate()  //盤面生成
-    {
-        for (int i = 0; i < Chessbord.GetLength(0); i++)
-        {
-            for (int j = 0; j < Chessbord.GetLength(1); j++)
-            {
-                if (Chessbord[i, j] == 0)
-                {
-                    Instantiate(Bord_B, new Vector3(i, 0, j), Quaternion.identity);
-                    Bord_B.name = i + "-" + j.ToString();
-                }
-                else if (Chessbord[i, j] == 1)
-                {
-                    Instantiate(Bord_W, new Vector3(i, 0, j), Quaternion.identity);
-                    Bord_W.name = i + "-" + j.ToString();
-                }
-                else
-                {
-                    Instantiate(Wall_a, new Vector3(i, 0, j), Quaternion.identity);
-                    //Instantiate(Wall_b, new Vector3(i, 0, j), Quaternion.identity);
-                    Wall_a.name = Wall_a.ToString();
-                }
-            }
-        }
-    }
+    //void MapCreate()  //盤面生成
+    //{
+    //    for (int i = 0; i < Chessbord.GetLength(0); i++)
+    //    {
+    //        for (int j = 0; j < Chessbord.GetLength(1); j++)
+    //        {
+    //            if (Chessbord[i, j] == 0)
+    //            {
+    //                Instantiate(Bord_B, new Vector3(i, 0, j), Quaternion.identity);
+    //                Bord_B.name = i + "-" + j.ToString();
+    //            }
+    //            else if (Chessbord[i, j] == 1)
+    //            {
+    //                Instantiate(Bord_W, new Vector3(i, 0, j), Quaternion.identity);
+    //                Bord_W.name = i + "-" + j.ToString();
+    //            }
+    //            else
+    //            {
+    //                Instantiate(Wall_a, new Vector3(i, 0, j), Quaternion.identity);
+    //                //Instantiate(Wall_b, new Vector3(i, 0, j), Quaternion.identity);
+    //                Wall_a.name = Wall_a.ToString();
+    //            }
+    //        }
+    //    }
+    //}
     //駒の選択==================================================================
     private void SelectChess(int x,int y)
     {
@@ -153,13 +164,12 @@ public class Bord : MonoBehaviour
         if(moves[x,y].isWhite != isWiteTurn)
             return;
 
-        //bool OneMove = false;
         allowedMoves = moves[x, y].PossibleMove();
-        //for (int i = 0; i <= 8; i++)
-        //    for (int j = 0; j < 8; j++)
-        //        if (allowedMoves[i, j])
-        //            OneMove = true;
-
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++)
+                if (allowedMoves[i, j])
+                    hasAtleastOneMove = true;
+            
         selectedChess = moves[x, y];
         BoarHi.Instance.HighlightAllowedMoves(allowedMoves);
         
@@ -168,11 +178,10 @@ public class Bord : MonoBehaviour
     //選択した駒を動かす=================================================================
     private void MoveChess(int x,int y)
     {
-        if(allowedMoves[x,y] == true)
+        
+        if(allowedMoves[x,y] )
         {
-            Move c = moves[x, y];
-
-           
+            Move c = moves[x, y];         
             if (c != null && c.isWhite != isWiteTurn)
             {
                 //駒を捕まえたとき
@@ -192,8 +201,8 @@ public class Bord : MonoBehaviour
             moves[x, y] = selectedChess;
             //isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             Debug.Log("黒のターン");
+            
         }
-
         BoarHi.Instance.Hidehighlights();
         selectedChess = null;
     }
@@ -277,20 +286,34 @@ public class Bord : MonoBehaviour
     private Vector3 GetTileCenter(int x, int y)
     { 
         Vector3 origin = Vector3.zero;
-        origin.x += (TILE_SIZE * x) + TILE_OFFSET -1;
-        origin.y = 1f;
-        origin.z += (TILE_SIZE * y) + TILE_OFFSET -1;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET ;
+        origin.y = 0.5f;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET ;
         return origin;
     }
 
     //自分の真進カーソルの位置を描画==========================================================
     private void DrawChess()
-    {  
-        //if(selectionX >= 0 && selectionY >=0)
-        //{
+    {
+        Vector3 widthLine = Vector3.right * 8;
+        Vector3 heigthLine = Vector3.forward * 8;
+
+        for(int i =0; i<=8;i++)
+        {
+            Vector3 start = Vector3.forward * i;
+            Debug.DrawLine(start,start+widthLine);
+            for (int j =0; j<=8;j++)
+            {
+                start = Vector3.right * i;
+                Debug.DrawLine(start, start + heigthLine);
+            }
+        }
+
+        if (selectionX >= 0 && selectionY >= 0)
+        {
             Debug.DrawLine(Vector3.forward * selectionY + Vector3.right * selectionX,
-                Vector3.forward * (selectionY + 0.7f) + Vector3.right * (selectionX +0.7f));
-        //}
+                Vector3.forward * (selectionY+1 ) + Vector3.right * (selectionX+1 ));
+        }
     }
     //ゲーム終了=============================================================================
     private void Quit()
