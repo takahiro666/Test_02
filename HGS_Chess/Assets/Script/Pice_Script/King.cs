@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class King : Move
 {
+    public int hp = 3;
+    public int at = 1;
+
     public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[8, 8];
