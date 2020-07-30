@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bord : MonoBehaviour
 {
@@ -188,8 +189,9 @@ public class Bord : MonoBehaviour
                 //キングかどうか
                 if (c.GetType() == typeof(King))
                 {//ゲーム終了
-                    EndGame();
-                    return;
+                    SceneManager.LoadScene("TitleScene");
+                    //EndGame();
+                    //return;
                 }
                 activeChessm.Remove(c.gameObject);
                 Destroy(c.gameObject);  //消滅させる
