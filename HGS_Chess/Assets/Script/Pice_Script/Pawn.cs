@@ -30,7 +30,7 @@ public class Pawn : Move
             if(CurrentY != 7)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY + 1];
-                if (c == null)
+                if (c == null || !c.isWhite)
                     r[CurrentX, CurrentY + 1] = true;
             }
             //真ん中(最初の動き)
@@ -64,7 +64,7 @@ public class Pawn : Move
             if (CurrentY != 0)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY - 1];
-                if (c == null)
+                if (c == null || c.isWhite)
                     r[CurrentX, CurrentY - 1] = true;
             }
             //真ん中(最初の動き)

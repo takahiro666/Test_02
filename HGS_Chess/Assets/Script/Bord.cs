@@ -199,7 +199,7 @@ public class Bord : MonoBehaviour
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
             moves[x, y] = selectedChess;
-            //isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
+            isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             Debug.Log("黒のターン");
             
         }
@@ -222,6 +222,8 @@ public class Bord : MonoBehaviour
         {
             GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
             go.transform.SetParent(transform);
+            moves[x, y] = go.GetComponent<Move>();
+            moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
         }
     }
