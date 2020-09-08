@@ -99,7 +99,7 @@ public class Bord : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKey(KeyCode.Escape)) Quit();
+        //if (Input.GetKey(KeyCode.Escape)) Quit();
     }
 
     //レイを作成しコライダーに当たったら色を変える==============================================================================
@@ -321,11 +321,11 @@ public class Bord : MonoBehaviour
         }
     }
     //ゲーム終了=============================================================================
-    private void Quit()
-    {
-        UnityEditor.EditorApplication.isPlaying = false;
-        UnityEngine.Application.Quit();
-    }
+    //private void Quit()
+    //{
+    //    UnityEditor.EditorApplication.isPlaying = false;
+    //    UnityEngine.Application.Quit();
+    //}
 
     //キング取られたときのゲーム終了処理
     private void EndGame()
