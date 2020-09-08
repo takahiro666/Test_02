@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bord : MonoBehaviour
 {
@@ -98,7 +99,7 @@ public class Bord : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKey(KeyCode.Escape)) Quit();
+        //if (Input.GetKey(KeyCode.Escape)) Quit();
     }
 
     //レイを作成しコライダーに当たったら色を変える==============================================================================
@@ -188,8 +189,9 @@ public class Bord : MonoBehaviour
                 //キングかどうか
                 if (c.GetType() == typeof(King))
                 {//ゲーム終了
-                    EndGmae();
-                    return;
+                    SceneManager.LoadScene("TitleScene");
+                    //EndGame();
+                    //return;
                 }
                 activeChessm.Remove(c.gameObject);
                 Destroy(c.gameObject);  //消滅させる
@@ -225,6 +227,9 @@ public class Bord : MonoBehaviour
             moves[x, y] = go.GetComponent<Move>();
             moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
+            moves[x, y] = go.GetComponent<Move>();
+            moves[x, y].SetPosition(x, y);
+
         }
     }
 
@@ -318,14 +323,14 @@ public class Bord : MonoBehaviour
         }
     }
     //ゲーム終了=============================================================================
-    private void Quit()
-    {
-        UnityEditor.EditorApplication.isPlaying = false;
-        UnityEngine.Application.Quit();
-    }
+    //private void Quit()
+    //{
+    //    UnityEditor.EditorApplication.isPlaying = false;
+    //    UnityEngine.Application.Quit();
+    //}
 
     //キング取られたときのゲーム終了処理
-    private void EndGmae()
+    private void EndGame()
     {
         if (isWiteTurn)
             Debug.Log("白チームの勝ち");

@@ -197,13 +197,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619105990}
-  m_LocalRotation: {x: 0.53729963, y: 0, z: 0, w: 0.8433915}
-  m_LocalPosition: {x: 5, y: 9, z: -0.5}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 4, y: 9, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 65, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &738215293
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +399,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1938829099}
   - component: {fileID: 1938829098}
-  - component: {fileID: 1938829101}
   - component: {fileID: 1938829100}
   m_Layer: 0
   m_Name: gamelot
@@ -467,18 +466,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highligtPrefab: {fileID: 7393919234229531120, guid: cb93fbf124b22c64281fe82beeb3dea0,
     type: 3}
---- !u!114 &1938829101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938829097}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1d2f0ea60958440bfe89629d641420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2010519340
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Button : MonoBehaviour
 {
-    public Fade fade;
-
+    public static int ESC;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,27 +15,11 @@ public class Button : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void StartButton()
-    {
-        if (Input.GetButtonDown("StartScene"))
-        {
-            fade.FadeIn(0.5f, () => print("フェードイン完了"));
+        if (Input.GetKey(KeyCode.Space))
             SceneManager.LoadScene("GameScene");
-            fade.FadeOut(0.5f, () => print("フェードアウト完了"));
-        }
-
-
+        if (Input.GetKey(KeyCode.Escape))
+            Application.Quit();
     }
 
-    public void MenuButton()
-    {
-    }
 
-    public void ResultButton()
-    {
-
-    }
 }

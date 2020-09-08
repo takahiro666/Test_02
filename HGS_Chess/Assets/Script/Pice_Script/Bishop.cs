@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Bishop : Move
 {
-  public override bool[,] PossibleMove()
+    public int hp = 3;
+    public int at = 1;
+
+    public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[8, 8];
 

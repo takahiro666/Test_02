@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Pawn : Move
 {
+    public int hp = 3;
+    public int at = 1;
+
    public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[8, 8];
@@ -18,6 +21,7 @@ public class Pawn : Move
                 c = Bord.Instance.moves[CurrentX - 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                     r[CurrentX - 1, CurrentY + 1] = true;
+                
             }
             //斜め右
             if (CurrentX != 7 && CurrentY != 7)
@@ -25,6 +29,7 @@ public class Pawn : Move
                 c = Bord.Instance.moves[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                     r[CurrentX + 1, CurrentY + 1] = true;
+
             }
             //真ん中
             if(CurrentY != 7)
@@ -42,6 +47,7 @@ public class Pawn : Move
                     r[CurrentX, CurrentY + 2] = true;
 
             }
+            
         }
         else 
         {
@@ -64,7 +70,11 @@ public class Pawn : Move
             if (CurrentY != 0)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY - 1];
+<<<<<<< HEAD
                 if (c == null || c.isWhite)
+=======
+                if (c == null ||c.isWhite)
+>>>>>>> master
                     r[CurrentX, CurrentY - 1] = true;
             }
             //真ん中(最初の動き)
