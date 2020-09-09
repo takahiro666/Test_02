@@ -8,8 +8,9 @@ public class Bord : MonoBehaviour
 {
     public GameObject Bord_W;
     public GameObject Bord_B;
-    public GameObject Wall_a;
-    public GameObject Wall_b;
+    public int[] cb;
+    [SerializeField]
+    private List<valueList> _valueListList = new List<valueList>();
     //※園城追加=================================================
     public static Bord Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
@@ -30,6 +31,8 @@ public class Bord : MonoBehaviour
     bool hasAtleastOneMove = false;
 
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
+    public int x = 8;
+    public int y = 8;
     //=====================================================
     // public int[,] Chessbord = new int[10, 10]   //基盤
     //{
@@ -44,18 +47,18 @@ public class Bord : MonoBehaviour
     //    {2,1,0,1,0,1,0,1,0,2},
     //    {2,2,2,2,2,2,2,2,2,2},
     //};
-    //public int[,] Chessbord = new int[8, 8]  //基盤8*8
-    //{
-    //    {0,1,0,1,0,1,0,1},
-    //    {1,0,1,0,1,0,1,0},
-    //    {0,1,0,1,0,1,0,1},
-    //    {1,0,1,0,1,0,1,0},
-    //    {0,1,0,1,0,1,0,1},
-    //    {1,0,1,0,1,0,1,0},
-    //    {0,1,0,1,0,1,0,1},
-    //    {1,0,1,0,1,0,1,0},
-    //};
-    ////public int[,] Picecre = new int[10, 10] //駒
+    public int[,] Chessbord = new int[,] //基盤8*8
+    {
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+        {0,1,0,1,0,1,0,1},
+        {1,0,1,0,1,0,1,0},
+    };
+    //public int[,] Picecre = new int[10, 10] //駒
     //{
     //    {1,1,1,1,1,1,1,1,1,1 },
     //    {1,5,3,4,6,7,4,3,5,1 },
@@ -73,7 +76,7 @@ public class Bord : MonoBehaviour
         //==============
         Instance = this;
         //==============
-        //MapCreate();
+        MapCreate();
         SpawnAllChess();
        
     }
@@ -100,8 +103,18 @@ public class Bord : MonoBehaviour
             }
         }
         //if (Input.GetKey(KeyCode.Escape)) Quit();
-    }
 
+    }
+    [System.SerializableAttribute]
+    public class valueList
+    {
+        public List<int> List = new List<int>();
+        public valueList(List<int> list)
+        {
+            List = list;
+        }
+    }
+    
     //レイを作成しコライダーに当たったら色を変える==============================================================================
     private void UpdateSlection()  
     {
@@ -131,31 +144,33 @@ public class Bord : MonoBehaviour
     }
     //================================================================================================================
     //マップ生成======================================================================================================
-    //void MapCreate()  //盤面生成
-    //{
-    //    for (int i = 0; i < Chessbord.GetLength(0); i++)
-    //    {
-    //        for (int j = 0; j < Chessbord.GetLength(1); j++)
-    //        {
-    //            if (Chessbord[i, j] == 0)
-    //            {
-    //                Instantiate(Bord_B, new Vector3(i, 0, j), Quaternion.identity);
-    //                Bord_B.name = i + "-" + j.ToString();
-    //            }
-    //            else if (Chessbord[i, j] == 1)
-    //            {
-    //                Instantiate(Bord_W, new Vector3(i, 0, j), Quaternion.identity);
-    //                Bord_W.name = i + "-" + j.ToString();
-    //            }
-    //            else
-    //            {
-    //                Instantiate(Wall_a, new Vector3(i, 0, j), Quaternion.identity);
-    //                //Instantiate(Wall_b, new Vector3(i, 0, j), Quaternion.identity);
-    //                Wall_a.name = Wall_a.ToString();
-    //            }
-    //        }
-    //    }
-    //}
+    void MapCreate()  //盤面生成
+    {
+        for (int i = 0; i < Chessbord.GetLength(0); i++)
+        {
+            for (int j = 0; j < Chessbord.GetLength(1); j++)
+            {
+                if (Chessbord[i, j] == 0)
+                {
+                    Instantiate(Bord_B, new Vector3(i + 0.5f, -0.5f, j + 0.5f), Quaternion.identity);
+                    Bord_B.name = i + "-" + j.ToString();
+                }
+                else /*if (Chessbord[i, j] == 1)*/
+                {
+                    Instantiate(Bord_W, new Vector3(i + 0.5f, -0.5f, j + 0.5f), Quaternion.identity);
+                    Bord_W.name = i + "-" + j.ToString();
+                }
+                //else
+                //{
+                //    Instantiate(Wall_a, new Vector3(i, 0, j), Quaternion.identity);
+                //    //Instantiate(Wall_b, new Vector3(i, 0, j), Quaternion.identity);
+                //    Wall_a.name = Wall_a.ToString();
+                //}
+            }
+        }
+    }
+
+    
     //駒の選択==================================================================
     private void SelectChess(int x,int y)
     {

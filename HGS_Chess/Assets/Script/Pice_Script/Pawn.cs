@@ -70,11 +70,8 @@ public class Pawn : Move
             if (CurrentY != 0)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY - 1];
-<<<<<<< HEAD
                 if (c == null || c.isWhite)
-=======
                 if (c == null ||c.isWhite)
->>>>>>> master
                     r[CurrentX, CurrentY - 1] = true;
             }
             //真ん中(最初の動き)
