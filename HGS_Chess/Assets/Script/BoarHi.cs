@@ -29,9 +29,9 @@ public class BoarHi : MonoBehaviour
    
     public void HighlightAllowedMoves(bool[,]moves)//駒の動ける範囲にplanを生成しわかりやすくする
     {
-        for(int i = 0; i<8;i++)
+        for(int i = 0; i<7;i++)
         {
-            for(int j =0;j<8;j++)
+            for(int j =0;j<7;j++)
             {
                 if(moves[i,j])
                 {

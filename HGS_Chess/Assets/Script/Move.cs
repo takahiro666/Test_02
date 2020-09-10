@@ -10,6 +10,13 @@ public abstract class Move : MonoBehaviour
 
     public bool isWhite;//白駒と黒駒を見るためのフラグ(白駒を手動でオンにする)時間があれば自動でできるように
 
+    Bord Pos;
+
+    private void Start()
+    {
+        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+    }
+
     public void SetPosition(int x,int y)
     {
         CurrentX = x;
@@ -18,6 +25,6 @@ public abstract class Move : MonoBehaviour
 
     public virtual bool[,] PossibleMove()
     {
-        return new bool[8,8];
+        return new bool[Pos.X, Pos.Y];
     }
 }

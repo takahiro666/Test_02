@@ -8,9 +8,6 @@ public class Bord : MonoBehaviour
 {
     public GameObject Bord_W;
     public GameObject Bord_B;
-    public int[] cb;
-    [SerializeField]
-    private List<valueList> _valueListList = new List<valueList>();
     //※園城追加=================================================
     public static Bord Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
@@ -31,54 +28,20 @@ public class Bord : MonoBehaviour
     bool hasAtleastOneMove = false;
 
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
-    public int x = 8;
-    public int y = 8;
+    public int X;
+    public int Y;
     //=====================================================
-    // public int[,] Chessbord = new int[10, 10]   //基盤
-    //{
-    //    {2,2,2,2,2,2,2,2,2,2},
-    //    {2,0,1,0,1,0,1,0,1,2},
-    //    {2,1,0,1,0,1,0,1,0,2},
-    //    {2,0,1,0,1,0,1,0,1,2},
-    //    {2,1,0,1,0,1,0,1,0,2},
-    //    {2,0,1,0,1,0,1,0,1,2},
-    //    {2,1,0,1,0,1,0,1,0,2},
-    //    {2,0,1,0,1,0,1,0,1,2},
-    //    {2,1,0,1,0,1,0,1,0,2},
-    //    {2,2,2,2,2,2,2,2,2,2},
-    //};
-    public int[,] Chessbord = new int[,] //基盤8*8
-    {
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-        {0,1,0,1,0,1,0,1},
-        {1,0,1,0,1,0,1,0},
-    };
-    //public int[,] Picecre = new int[10, 10] //駒
-    //{
-    //    {1,1,1,1,1,1,1,1,1,1 },
-    //    {1,5,3,4,6,7,4,3,5,1 },
-    //    {1,2,2,2,2,2,2,2,2,1 },
-    //    {1,0,0,0,0,0,0,0,0,1 },
-    //    {1,0,0,0,0,0,0,0,0,1 },
-    //    {1,0,0,0,0,0,0,0,0,1 },
-    //    {1,0,0,0,0,0,0,0,0,1 },
-    //    {1,2,2,2,2,2,2,2,2,1 },
-    //    {1,5,3,4,6,7,4,3,5,1 },
-    //    {1,1,1,1,1,1,1,1,1,1 }
-    //};
+    public int[,] Chessbord; //基盤
+    
     private void Start()
     {
+        Chessbord = new int[X, Y];
         //==============
         Instance = this;
         //==============
+        BordArray();
         MapCreate();
         SpawnAllChess();
-       
     }
    
     void Update()
@@ -105,16 +68,6 @@ public class Bord : MonoBehaviour
         //if (Input.GetKey(KeyCode.Escape)) Quit();
 
     }
-    [System.SerializableAttribute]
-    public class valueList
-    {
-        public List<int> List = new List<int>();
-        public valueList(List<int> list)
-        {
-            List = list;
-        }
-    }
-    
     //レイを作成しコライダーに当たったら色を変える==============================================================================
     private void UpdateSlection()  
     {
@@ -143,6 +96,32 @@ public class Bord : MonoBehaviour
         }
     }
     //================================================================================================================
+
+    // ボードの配列を作成======================================================
+    void BordArray()
+    {
+        for(int i = 0; i < Y; i++)
+        {
+            for(int j = 0; j < X; j++ )
+            {
+                if(i%2==0)
+                {
+                    if (j % 2 == 0)
+                        Chessbord[i, j] = 0;
+                    else
+                        Chessbord[i, j] = 1;
+                }
+                else
+                {
+                    if (j % 2 == 0)
+                        Chessbord[i, j] = 1;
+                    else
+                        Chessbord[i, j] = 0;
+                }
+            }
+        }
+    }
+
     //マップ生成======================================================================================================
     void MapCreate()  //盤面生成
     {
@@ -160,17 +139,89 @@ public class Bord : MonoBehaviour
                     Instantiate(Bord_W, new Vector3(i + 0.5f, -0.5f, j + 0.5f), Quaternion.identity);
                     Bord_W.name = i + "-" + j.ToString();
                 }
-                //else
-                //{
-                //    Instantiate(Wall_a, new Vector3(i, 0, j), Quaternion.identity);
-                //    //Instantiate(Wall_b, new Vector3(i, 0, j), Quaternion.identity);
-                //    Wall_a.name = Wall_a.ToString();
-                //}
             }
         }
     }
 
-    
+    //※駒の位置==========================================================================
+    private void SpawnAllChess()
+    {
+        activeChessm = new List<GameObject>();
+        moves = new Move[7, 7];
+        //白駒生成位置=================================================================
+        for (int i = 1; i < X-1; i++)
+        {
+            if (i != 0 && i < X)
+            {
+                if (i != 3)
+                     PiceCreat(1, i, 0);
+                else
+                    PiceCreat(0, i, 0);
+            }
+        }
+        //黒駒生成位置================================================================
+         for(int i =1;i<X-1;i++)
+        {
+            if (i != 0 && i < X)
+            {
+                if (i != 3)
+                    PiceCreat(3, i, Y-1);
+                else
+                    PiceCreat(2, i, Y-1);
+            }
+        }
+
+       /*//白駒生成part1
+        //king
+        PiceCreat(0, 3, 0);
+
+        //Queen
+        PiceCreat(1, 4, 0);
+
+        //Rooks
+        PiceCreat(2, 0, 0);
+        PiceCreat(2, 7, 0);
+
+        //Bishops
+        PiceCreat(3, 2, 0);
+        PiceCreat(3, 5, 0);
+
+        //Night
+        PiceCreat(4, 1, 0);
+        PiceCreat(4, 6, 0);
+
+        //Pawns
+        for (int i = 0; i < 7; i++)
+        {
+            PiceCreat(5, i, 1);
+        }
+
+        //黒駒生成位置======================================================
+        //king
+        PiceCreat(6, 3, 7);
+
+        //Queen
+        PiceCreat(7, 4, 7);
+
+        //Rooks
+        PiceCreat(8, 0, 7);
+        PiceCreat(8, 7, 7);
+
+        //Bishops
+        PiceCreat(9, 2, 7);
+        PiceCreat(9, 5, 7);
+
+        //Night
+        PiceCreat(10, 1, 7);
+        PiceCreat(10, 6, 7);
+
+        //Pawns
+        for (int i = 0; i < 8; i++)
+        {
+            PiceCreat(11, i, 6);
+        }*/
+    }
+
     //駒の選択==================================================================
     private void SelectChess(int x,int y)
     {
@@ -181,8 +232,8 @@ public class Bord : MonoBehaviour
             return;
 
         allowedMoves = moves[x, y].PossibleMove();
-        for (int i = 0; i < 8; i++)
-            for (int j = 0; j < 8; j++)
+        for (int i = 0; i < X; i++)
+            for (int j = 0; j < Y; j++)
                 if (allowedMoves[i, j])
                     hasAtleastOneMove = true;
             
@@ -227,7 +278,7 @@ public class Bord : MonoBehaviour
     //※駒の生成===============================================================================
     private void PiceCreat(int index,int x,int y)
     {
-        if(index < 6)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
+        if(index < 2)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
         {
             GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x,y), Quaternion.identity) as GameObject;
             go.transform.SetParent(transform);
@@ -248,62 +299,7 @@ public class Bord : MonoBehaviour
         }
     }
 
-    //※駒の位置==========================================================================
-    private void SpawnAllChess()
-    {
-        activeChessm = new List<GameObject>();
-        moves = new Move[8, 8];
-
-        //白駒生成位置=================================================================
-        //king
-        PiceCreat(0, 3, 0);
-
-        //Queen
-        PiceCreat(1, 4, 0);
-
-        //Rooks
-        PiceCreat(2, 0, 0);
-        PiceCreat(2, 7, 0);
-
-        //Bishops
-        PiceCreat(3, 2, 0);
-        PiceCreat(3, 5, 0);
-
-        //Night
-        PiceCreat(4, 1, 0);
-        PiceCreat(4, 6, 0);
-
-        //Pawns
-        for(int i = 0;i<8;i++)
-        {
-            PiceCreat(5, i, 1);
-        }
-
-        //黒駒生成位置======================================================
-        //king
-        PiceCreat(6, 3, 7);
-
-        //Queen
-        PiceCreat(7, 4, 7);
-
-        //Rooks
-        PiceCreat(8, 0, 7);
-        PiceCreat(8, 7, 7);
-
-        //Bishops
-        PiceCreat(9, 2, 7);
-        PiceCreat(9, 5, 7);
-
-        //Night
-        PiceCreat(10, 1, 7);
-        PiceCreat(10, 6, 7);
-
-        //Pawns
-        for (int i = 0; i < 8; i++)
-        {
-            PiceCreat(11, i, 6);
-        }
-    }
+   
     //※駒を中心に乗せる======================================================================
     private Vector3 GetTileCenter(int x, int y)
     { 
@@ -317,14 +313,14 @@ public class Bord : MonoBehaviour
     //自分の真進カーソルの位置を描画==========================================================
     private void DrawChess()
     {
-        Vector3 widthLine = Vector3.right * 8;
-        Vector3 heigthLine = Vector3.forward * 8;
+        Vector3 widthLine = Vector3.right * X;
+        Vector3 heigthLine = Vector3.forward * Y;
 
-        for(int i =0; i<=8;i++)
+        for(int i =0; i<=X;i++)
         {
             Vector3 start = Vector3.forward * i;
             Debug.DrawLine(start,start+widthLine);
-            for (int j =0; j<=8;j++)
+            for (int j =0; j<=X;j++)
             {
                 start = Vector3.right * i;
                 Debug.DrawLine(start, start + heigthLine);

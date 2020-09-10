@@ -6,10 +6,11 @@ public class Night : Move
 {
     public int hp = 3;
     public int at = 1;
-
+    Bord Pos;
     public override bool[,] PossibleMove()
     {
-        bool[,] r = new bool[8, 8];
+        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        bool[,] r = new bool[Pos.X, Pos.Y];
 
         //左前
         KingMove(CurrentX - 1, CurrentY + 2, ref r);
@@ -41,7 +42,7 @@ public class Night : Move
     public void KingMove(int x, int y, ref bool[,] r)
     {
         Move c;
-        if (x >= 0 && x < 8 && y >= 0 && y < 8)
+        if (x >= 0 && x < Pos.X && y >= 0 && y < Pos.Y)
         {
             c = Bord.Instance.moves[x, y];
             if (c == null)

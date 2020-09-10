@@ -6,10 +6,11 @@ public class Bishop : Move
 {
     public int hp = 3;
     public int at = 1;
-
+    Bord Pos;
     public override bool[,] PossibleMove()
     {
-        bool[,] r = new bool[8, 8];
+        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        bool[,] r = new bool[Pos.X, Pos.Y];
 
         Move c;
         int i, j;
@@ -21,7 +22,7 @@ public class Bishop : Move
         {
             i--;
             j++;
-            if(i < 0 || j >= 8)
+            if(i < 0 || j >= Pos.X)
                 break;
 
             c = Bord.Instance.moves[i, j];
@@ -43,7 +44,7 @@ public class Bishop : Move
         {
             i++;
             j++;
-            if (i >= 8 || j >= 8)
+            if (i >= Pos.X || j >= Pos.X)
                 break;
 
             c = Bord.Instance.moves[i, j];
@@ -87,7 +88,7 @@ public class Bishop : Move
         {
             i++;
             j--;
-            if (i >= 8 || j<0)
+            if (i >= Pos.X || j<0)
                 break;
 
             c = Bord.Instance.moves[i, j];

@@ -231,7 +231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738215293}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 0, z: 4}
+  m_LocalPosition: {x: 3.5, y: 0, z: 3.5}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 1938829099}
@@ -248,7 +248,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Size: {x: 8.7, y: 2.220446e-16, z: 8.7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &738215296
 MeshRenderer:
@@ -421,25 +421,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bord_W: {fileID: 180306612650380341, guid: 9ec6a6276a9e9584a81452758e0fbed0, type: 3}
   Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
-  cb: 310000004f0000000000000000000000000000000000000000000000000000000000000000000000
-  _valueListList:
-  - List: 0a0000000a000000
   chessmPrefabs:
   - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
-  - {fileID: 1137749882404279071, guid: a8d9c1f256e15894ca2241e783474ccd, type: 3}
-  - {fileID: 9116295498428441262, guid: d92f498103ae7fa4db11d9de9587f56c, type: 3}
-  - {fileID: 6859966230570683899, guid: 808f673f2abb2ac44b97ab165311d8b0, type: 3}
-  - {fileID: 5708514379104382937, guid: da3545088bdcc1c45b9889330f45c6ed, type: 3}
   - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
   - {fileID: 6916429866724264829, guid: 4c101c31f1057534189cc0380ffcd75f, type: 3}
-  - {fileID: 7519710893857314355, guid: 9b56d25457379c949b6719ccfabd4c1d, type: 3}
-  - {fileID: 7396984666958014045, guid: 3940511519b8b1047b42840e30a5e097, type: 3}
-  - {fileID: 8849596423311088840, guid: b0fd8ab990fda63428ab80a2bef93be3, type: 3}
-  - {fileID: 8136490959688994202, guid: 0fd14e470ed335d48b723615ae496620, type: 3}
   - {fileID: 2336920088345116862, guid: 0e027f2d996562a449ec72b1834bd1e2, type: 3}
   isWiteTurn: 1
-  x: 8
-  y: 8
+  X: 7
+  Y: 7
 --- !u!4 &1938829099
 Transform:
   m_ObjectHideFlags: 0

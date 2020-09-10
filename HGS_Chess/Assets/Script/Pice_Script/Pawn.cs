@@ -6,17 +6,18 @@ public class Pawn : Move
 {
     public int hp = 3;
     public int at = 1;
-
-   public override bool[,] PossibleMove()
+    Bord Pos;
+    public override bool[,] PossibleMove()
     {
-        bool[,] r = new bool[8, 8];
+        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        bool[,] r = new bool[Pos.X, Pos.Y];
         Move c, c2;　
 
         //白駒の動き
         if(isWhite)
         {
             //斜め左
-            if(CurrentX != 0 && CurrentY !=7)
+            if(CurrentX != 0 && CurrentY !=6)
             {
                 c = Bord.Instance.moves[CurrentX - 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
@@ -24,7 +25,7 @@ public class Pawn : Move
                 
             }
             //斜め右
-            if (CurrentX != 7 && CurrentY != 7)
+            if (CurrentX != 7 && CurrentY != 6)
             {
                 c = Bord.Instance.moves[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
@@ -32,14 +33,14 @@ public class Pawn : Move
 
             }
             //真ん中
-            if(CurrentY != 7)
+            if(CurrentY != 6)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY + 1];
                 if (c == null || !c.isWhite)
                     r[CurrentX, CurrentY + 1] = true;
             }
             //真ん中(最初の動き)
-            if(CurrentY ==1)
+            if(CurrentY ==0)
             {
                 c = Bord.Instance.moves[CurrentX, CurrentY + 1];
                 c2 = Bord.Instance.moves[CurrentX, CurrentY + 2];
@@ -60,7 +61,7 @@ public class Pawn : Move
                     r[CurrentX - 1, CurrentY - 1] = true;
             }
             //斜め右
-            if (CurrentX != 7 && CurrentY != 0)
+            if (CurrentX != 6 && CurrentY != 0)
             {
                 c = Bord.Instance.moves[CurrentX + 1, CurrentY - 1];
                 if (c != null && c.isWhite)

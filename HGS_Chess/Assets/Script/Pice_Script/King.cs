@@ -6,31 +6,43 @@ public class King : Move
 {
     public int hp = 3;
     public int at = 1;
-
+    Bord Pos;
     public override bool[,] PossibleMove()
     {
-        bool[,] r = new bool[8, 8];
+        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        bool[,] r = new bool[Pos.X, Pos.Y];
         Move c;
         int i, j;
 
-        //Top side
+        // Top side
         i = CurrentX - 1;
         j = CurrentY + 1;
-        if(CurrentY != 7)
+        if(CurrentY != 6)
         {
-            for(int k = 0;k < 3; k++)
+            c = Bord.Instance.moves[CurrentX, CurrentY + 1];
+            if (c == null)
+                r[CurrentX , CurrentY + 1] = true;
+            else if (isWhite != c.isWhite)
+                r[CurrentX , CurrentY + 1] = true;
+            if (CurrentX!=0)//左上表示
             {
-                if(i >= 0 || i < 8 )
-                {
-                    c = Bord.Instance.moves[i, j];
-                    if (c == null)
-                        r[i, j] = true;
-                    else if (isWhite != c.isWhite)
-                        r[i, j] = true;
-                }
-
-                i++;
+                c = Bord.Instance.moves[CurrentX-1, CurrentY + 1];
+                if (c == null)
+                    r[CurrentX-1, CurrentY + 1] = true;
+                else if (isWhite != c.isWhite)
+                    r[CurrentX-1, CurrentY + 1] = true;
             }
+            if(CurrentX!=Pos.X-1)
+            {
+                c = Bord.Instance.moves[CurrentX+1, CurrentY + 1];
+                if (c == null)
+                    r[CurrentX+1, CurrentY + 1] = true;
+                else if (isWhite != c.isWhite)
+                    r[CurrentX+1, CurrentY + 1] = true;
+            }
+               
+               
+            
         }
 
         //後ろ
@@ -38,25 +50,33 @@ public class King : Move
         j = CurrentY - 1;
         if (CurrentY != 0)
         {
-            for (int k = 0; k < 3; k++)
+            c = Bord.Instance.moves[CurrentX, CurrentY - 1];
+            if (c == null)
+                r[CurrentX, CurrentY - 1] = true;
+            else if (isWhite != c.isWhite)
+                r[CurrentX, CurrentY - 1] = true;
+            if (CurrentX != 0)//左上表示
             {
-                if (i >= 0 || i < 8)
-                {
-                    c = Bord.Instance.moves[i, j];
-                    if (c == null)
-                        r[i, j] = true;
-                    else if (isWhite != c.isWhite)
-                        r[i, j] = true;
-                }
-
-                i++;
+                c = Bord.Instance.moves[CurrentX - 1, CurrentY - 1];
+                if (c == null)
+                    r[CurrentX - 1, CurrentY - 1] = true;
+                else if (isWhite != c.isWhite)
+                    r[CurrentX - 1, CurrentY - 1] = true;
+            }
+            if (CurrentX != Pos.X - 1)
+            {
+                c = Bord.Instance.moves[CurrentX + 1, CurrentY - 1];
+                if (c == null)
+                    r[CurrentX + 1, CurrentY - 1] = true;
+                else if (isWhite != c.isWhite)
+                    r[CurrentX + 1, CurrentY - 1] = true;
             }
         }
 
         //左(真ん中)
-        if(CurrentX !=0)
+        if(CurrentX != 0)
         {
-            c = Bord.Instance.moves[CurrentX - 1, CurrentY];
+            c = Bord.Instance.moves[CurrentX -1, CurrentY];
             if (c == null)
                 r[CurrentX - 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
@@ -64,9 +84,9 @@ public class King : Move
         }
 
         //右(真ん中)
-        if (CurrentX != 7)
+        if (CurrentX != 6)
         {
-            c = Bord.Instance.moves[CurrentX + 1, CurrentY];
+            c = Bord.Instance.moves[CurrentX +1, CurrentY];
             if (c == null)
                 r[CurrentX + 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
