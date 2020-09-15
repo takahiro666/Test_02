@@ -33,14 +33,17 @@ public class Bord : MonoBehaviour
     public int Y;
     public Text tex;
     public  int trun=1;//ターン数
-    Fade_trun fade;
+    Fade_trun fade; //自分のターンと相手のターンのフェード
+    public Player_cost P1cos;//プレイヤーのコスト
     //=====================================================
     public int[,] Chessbord; //基盤
 
     private void Start()
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
-        tex =GameObject.Find("Text").GetComponentInChildren<Text>();
+        tex =GameObject.Find("trun").GetComponentInChildren<Text>();
+        P1cos = GameObject.Find("Canvas").GetComponent<Player_cost>();
+        //P1cos.PCost();
         ChangeTurn();
         Chessbord = new int[X, Y];
         //==============
@@ -71,12 +74,9 @@ public class Bord : MonoBehaviour
                     //駒が動かせる状態か
                     MoveChess(selectionX, selectionY);
                     
-                }
-                
+                }               
             }
-           
         }
-       
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
     private void UpdateSlection()
@@ -277,10 +277,11 @@ public class Bord : MonoBehaviour
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
             moves[x, y] = selectedChess;
+            P1cos.PCost();
             trun++;
             isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             ChangeTurn();
-            fade.Qtext.enabled = true;
+            fade.Qtext.enabled = true;//表示
             //Debug.Log(trun + "ターン目");
             //Debug.Log("黒のターン");
 
