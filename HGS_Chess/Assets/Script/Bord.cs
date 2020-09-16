@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Bord : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class Bord : MonoBehaviour
     public Text tex;
     public  int trun=1;//ターン数
     Fade_trun fade; //自分のターンと相手のターンのフェード
-    public Player_cost P1cos;//プレイヤーのコスト
+    public Player_cost Pcos;//プレイヤーのコスト
     //=====================================================
     public int[,] Chessbord; //基盤
 
@@ -42,8 +43,9 @@ public class Bord : MonoBehaviour
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
         tex =GameObject.Find("trun").GetComponentInChildren<Text>();
-        P1cos = GameObject.Find("Canvas").GetComponent<Player_cost>();
-        //P1cos.PCost();
+        Pcos = GameObject.Find("Canvas").GetComponent<Player_cost>();
+        Pcos.P1_cos = 1;   //プレイヤー１のターン数
+        Pcos.Player1_cos.text = Pcos.P1_cos.ToString();//プレイヤー１のターン数をtextに表示
         ChangeTurn();
         Chessbord = new int[X, Y];
         //==============
@@ -62,6 +64,12 @@ public class Bord : MonoBehaviour
         fade.Change();
         if (Input.GetMouseButtonDown(0))
         {
+           
+            //var childTransform = GameObject.Find("gamelot").transform;
+            //foreach (Transform child in childTransform.transform)//子オブジェクトを探す
+            //{          
+            //    Debug.Log(child);
+            //}
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChess == null)
@@ -91,7 +99,7 @@ public class Bord : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))
         {
-            //Debug.Log(hit.point);
+            
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
             if (hit.collider.gameObject.GetComponent<changecolor>())
@@ -181,7 +189,7 @@ public class Bord : MonoBehaviour
             }
         }
 
-        /*//白駒生成part1
+        /*白駒生成part1
          //king
          PiceCreat(0, 3, 0);
 
@@ -269,7 +277,17 @@ public class Bord : MonoBehaviour
                     //EndGame();
                     //return;
                 }
-                activeChessm.Remove(c.gameObject);
+                if (moves[x, y].isWhite != isWiteTurn)//P2がP1の駒を取った時にP2のコストを+1
+                {
+                    Pcos.P2_cos++;
+                    Pcos.Player2_cos.text = Pcos.P2_cos.ToString();
+                }
+                else//P1がP2の駒を取った時にP2のコストを+1
+                {
+                    Pcos.P1_cos++;
+                    Pcos.Player1_cos.text = Pcos.P1_cos.ToString();
+                }
+                    activeChessm.Remove(c.gameObject);
                 Destroy(c.gameObject);  //消滅させる
             }
 
@@ -277,7 +295,7 @@ public class Bord : MonoBehaviour
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
             moves[x, y] = selectedChess;
-            P1cos.PCost();
+            Pcos.PCost();
             trun++;
             isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             ChangeTurn();
