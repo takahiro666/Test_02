@@ -6,10 +6,10 @@ public class Night : Move
 {
     public int hp = 3;
     public int at = 1;
-    Bord Pos;
+    Pice Pos;
     public override bool[,] PossibleMove()
     {
-        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        Pos = GameObject.Find("gamelot").GetComponent<Pice>();
         bool[,] r = new bool[Pos.X, Pos.Y];
 
         //左前
@@ -44,7 +44,7 @@ public class Night : Move
         Move c;
         if (x >= 0 && x < Pos.X && y >= 0 && y < Pos.Y)
         {
-            c = Bord.Instance.moves[x, y];
+            c = Pice.Instance.moves[x, y];
             if (c == null)
                 r[x, y] = true;
             else if (isWhite != c.isWhite)

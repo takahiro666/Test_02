@@ -8,13 +8,13 @@ public class Fade_trun : MonoBehaviour
     public Text Qtext;
     float a_color;
     public bool flag_G;
-    Bord tr;
+    Pice tr;
     public float time = 0.01f;
     // Use this for initialization
     void Start()
     {
         //no_clic.SetActive(false);
-        tr = GameObject.Find("gamelot").GetComponentInChildren<Bord>();
+        tr = GameObject.Find("gamelot").GetComponentInChildren<Pice>();
         a_color = 0;
     }
     public void Change()
