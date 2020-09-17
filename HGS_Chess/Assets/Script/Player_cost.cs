@@ -10,11 +10,11 @@ public class Player_cost : MonoBehaviour
     public  int P1_cos;//プレイヤー1のコスト
     public int P2_cos;  //プレイヤー2のコスト
     private int max = 5;
-    Bord trn;
+    Pice trn;
     // Start is called before the first frame update
     void Start()
     {
-        trn = GameObject.Find("gamelot").GetComponentInChildren<Bord>();
+        trn = GameObject.Find("gamelot").GetComponentInChildren<Pice>();
         Player1_cos=GameObject.Find("Player1_cost").GetComponent<Text>();
         Player2_cos= GameObject.Find("Player2_cost").GetComponent<Text>();
     }
@@ -24,7 +24,7 @@ public class Player_cost : MonoBehaviour
     {
         if (trn.trun % 2 != 0)//プレイヤー２のコスト加算処理
         {
-            if(P2_cos<max)
+            if (P2_cos<max)
             {
                 P2_cos++;
                 Player2_cos.text = P2_cos.ToString();

@@ -6,10 +6,10 @@ public class Rook : Move
 {
     public int hp = 3;
     public int at = 1;
-    Bord Pos;
+    Pice Pos;
     public override bool[,] PossibleMove()
     {
-        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        Pos = GameObject.Find("gamelot").GetComponent<Pice>();
         bool[,] r = new bool[Pos.X,Pos.Y];
         Move c;
         int i;
@@ -22,7 +22,7 @@ public class Rook : Move
             if (i >= Pos.X)
                 break;
 
-            c = Bord.Instance.moves[i, CurrentY];
+            c = Pice.Instance.moves[i, CurrentY];
             if (c == null)
                 r[i, CurrentY] = true;
             else
@@ -42,7 +42,7 @@ public class Rook : Move
             if (i < 0)
                 break;
 
-            c = Bord.Instance.moves[i, CurrentY];
+            c = Pice.Instance.moves[i, CurrentY];
             if (c == null)
                 r[i, CurrentY] = true;
             else
@@ -62,7 +62,7 @@ public class Rook : Move
             if (i >= Pos.X)
                 break;
 
-            c = Bord.Instance.moves[CurrentX, i];
+            c = Pice.Instance.moves[CurrentX, i];
             if (c == null)
                 r[CurrentX, i] = true;
             else
@@ -82,7 +82,7 @@ public class Rook : Move
             if (i <0)
                 break;
 
-            c = Bord.Instance.moves[CurrentX, i];
+            c = Pice.Instance.moves[CurrentX, i];
             if (c == null)
                 r[CurrentX, i] = true;
             else

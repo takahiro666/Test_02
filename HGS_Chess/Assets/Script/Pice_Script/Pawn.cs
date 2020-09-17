@@ -6,10 +6,10 @@ public class Pawn : Move
 {
     public int hp = 3;
     public int at = 1;
-    Bord Pos;
+    Pice Pos;
     public override bool[,] PossibleMove()
     {
-        Pos = GameObject.Find("gamelot").GetComponent<Bord>();
+        Pos = GameObject.Find("gamelot").GetComponent<Pice>();
         bool[,] r = new bool[Pos.X, Pos.Y];
         Move c, c2;　
 
@@ -19,7 +19,7 @@ public class Pawn : Move
             //斜め左
             if(CurrentX != 0 && CurrentY !=6)
             {
-                c = Bord.Instance.moves[CurrentX - 1, CurrentY + 1];
+                c = Pice.Instance.moves[CurrentX - 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                     r[CurrentX - 1, CurrentY + 1] = true;
                 
@@ -27,7 +27,7 @@ public class Pawn : Move
             //斜め右
             if (CurrentX != 7 && CurrentY != 6)
             {
-                c = Bord.Instance.moves[CurrentX + 1, CurrentY + 1];
+                c = Pice.Instance.moves[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                     r[CurrentX + 1, CurrentY + 1] = true;
 
@@ -35,15 +35,15 @@ public class Pawn : Move
             //真ん中
             if(CurrentY != 6)
             {
-                c = Bord.Instance.moves[CurrentX, CurrentY + 1];
+                c = Pice.Instance.moves[CurrentX, CurrentY + 1];
                 if (c == null || !c.isWhite)
                     r[CurrentX, CurrentY + 1] = true;
             }
             //真ん中(最初の動き)
             if(CurrentY ==0)
             {
-                c = Bord.Instance.moves[CurrentX, CurrentY + 1];
-                c2 = Bord.Instance.moves[CurrentX, CurrentY + 2];
+                c = Pice.Instance.moves[CurrentX, CurrentY + 1];
+                c2 = Pice.Instance.moves[CurrentX, CurrentY + 2];
                 if(c == null & c2 == null)
                     r[CurrentX, CurrentY + 2] = true;
 
@@ -56,21 +56,21 @@ public class Pawn : Move
             if (CurrentX != 0 && CurrentY != 0)
             {
 
-                c = Bord.Instance.moves[CurrentX - 1, CurrentY - 1];
+                c = Pice.Instance.moves[CurrentX - 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                     r[CurrentX - 1, CurrentY - 1] = true;
             }
             //斜め右
             if (CurrentX != 6 && CurrentY != 0)
             {
-                c = Bord.Instance.moves[CurrentX + 1, CurrentY - 1];
+                c = Pice.Instance.moves[CurrentX + 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                     r[CurrentX + 1, CurrentY - 1] = true;
             }
             //真ん中
             if (CurrentY != 0)
             {
-                c = Bord.Instance.moves[CurrentX, CurrentY - 1];
+                c = Pice.Instance.moves[CurrentX, CurrentY - 1];
                 if (c == null || c.isWhite)
                 if (c == null ||c.isWhite)
                     r[CurrentX, CurrentY - 1] = true;
@@ -78,8 +78,8 @@ public class Pawn : Move
             //真ん中(最初の動き)
             if (CurrentY == 6)
             {
-                c = Bord.Instance.moves[CurrentX, CurrentY - 1];
-                c2 = Bord.Instance.moves[CurrentX, CurrentY - 2];
+                c = Pice.Instance.moves[CurrentX, CurrentY - 1];
+                c2 = Pice.Instance.moves[CurrentX, CurrentY - 2];
                 if (c == null & c2 == null)
                     r[CurrentX, CurrentY - 2] = true;
             }
