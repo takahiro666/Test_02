@@ -32,18 +32,23 @@ public class Pice : MonoBehaviour
     public int X;
     public int Y;
     public Text tex;
+    public Text Player1_cos;
+    public Text Player2_cos;
+    private int P1_cos;//プレイヤー1のコスト
+    private int P2_cos;//プレイヤー2のコスト
+    private int maxcos = 5;//コストの最大値
     public  int trun=1;//ターン数
     Fade_trun fade; //自分のターンと相手のターンのフェード
-    public Player_cost Pcos;//プレイヤーのコスト
     //=====================================================
 
     private void Start()
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
         tex =GameObject.Find("trun").GetComponentInChildren<Text>();
-        Pcos = GameObject.Find("Canvas").GetComponent<Player_cost>();
-        Pcos.P1_cos = 1;   //プレイヤー１のターン数
-        Pcos.Player1_cos.text = Pcos.P1_cos.ToString();//プレイヤー１のターン数をtextに表示
+        Player1_cos = GameObject.Find("Player1_cost").GetComponent<Text>();
+        Player2_cos = GameObject.Find("Player2_cost").GetComponent<Text>();
+        P1_cos = 1;   //プレイヤー１のターン数
+        Player1_cos.text =P1_cos.ToString();//プレイヤー１のターン数をtextに表示
         ChangeTurn();
         
         //==============
@@ -58,6 +63,8 @@ public class Pice : MonoBehaviour
         UpdateSlection();
         DrawChess();
         fade.Change();
+        //進化フェーズの処理
+        //進化のメソッドの呼び出し
         if (Input.GetMouseButtonDown(0))
         {
            
@@ -223,20 +230,28 @@ public class Pice : MonoBehaviour
                 //駒を捕まえたとき
                 //キングかどうか
                 if (c.GetType() == typeof(King))
-                {//ゲーム終了
+                {   //ゲーム終了
                     SceneManager.LoadScene("TitleScene");
                     //EndGame();
                     //return;
                 }
-                if (moves[x, y].isWhite != isWiteTurn)//P2がP1の駒を取った時にP2のコストを+1
+                //P1がP2の駒を取った時にP1のコストを+1
+                if (isWiteTurn )
                 {
-                    Pcos.P2_cos++;
-                    Pcos.Player2_cos.text = Pcos.P2_cos.ToString();
+                    if(P1_cos <maxcos)
+                    {
+                        P1_cos++;
+                        Player1_cos.text = P1_cos.ToString();
+                    }
+                   
                 }
-                else//P1がP2の駒を取った時にP2のコストを+1
+                else 
                 {
-                    Pcos.P1_cos++;
-                    Pcos.Player1_cos.text = Pcos.P1_cos.ToString();
+                    if (P2_cos < maxcos)
+                    {
+                        P2_cos++;
+                        Player2_cos.text = P2_cos.ToString();
+                    }
                 }
                     activeChessm.Remove(c.gameObject);
                 Destroy(c.gameObject);  //消滅させる
@@ -246,13 +261,13 @@ public class Pice : MonoBehaviour
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
             moves[x, y] = selectedChess;
-            Pcos.PCost();
+            PCost();
             trun++;
             isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             ChangeTurn();
             fade.Qtext.enabled = true;//表示
             //Debug.Log(trun + "ターン目");
-            //Debug.Log("黒のターン");
+            //Debug.Log("黒のターン"+isWiteTurn);
 
         }
         BoarHi.Instance.Hidehighlights();
@@ -349,8 +364,37 @@ public class Pice : MonoBehaviour
             tex.text = "Player2のターン";
         }
     }
-    void PiceEvolution()
+    private void PCost()　//コスト処理
+    {
+        if (trun % 2 != 0)//プレイヤー２のコスト加算処理
+        {
+            if (P2_cos < maxcos)
+            {
+                P2_cos++;
+                Player2_cos.text = P2_cos.ToString();
+            }
+            else
+                Player2_cos.text = P2_cos.ToString();
+        }
+        else//プレイヤー1のコスト加算処理
+        {
+            if (P1_cos < maxcos)
+            {
+                P1_cos++;
+                Player1_cos.text = P1_cos.ToString();
+            }
+            else
+                Player1_cos.text = P1_cos.ToString();
+        }
+    }
+    //駒の進化
+    public void PiceEvolution_Knight()//ナイトの進化処理
     {
 
+        if (trun % 2 != 0)
+            PiceCreat(4, 0, 0);   //knight生成
+        else
+            PiceCreat(5, 0, 6);
+        //進化フェーズが終わり次のフェーズの呼び出し
     }
 }
