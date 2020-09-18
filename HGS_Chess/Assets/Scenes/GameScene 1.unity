@@ -1847,6 +1847,7 @@ GameObject:
   - component: {fileID: 1938829099}
   - component: {fileID: 1938829098}
   - component: {fileID: 1938829100}
+  - component: {fileID: 1938829101}
   m_Layer: 0
   m_Name: gamelot
   m_TagString: Untagged
@@ -1866,8 +1867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b523f4e69566154787012299beb0810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bord_W: {fileID: 180306612650380341, guid: 9ec6a6276a9e9584a81452758e0fbed0, type: 3}
-  Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
   chessmPrefabs:
   - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
   - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
@@ -1908,6 +1907,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highligtPrefab: {fileID: 7393919234229531120, guid: cb93fbf124b22c64281fe82beeb3dea0,
     type: 3}
+--- !u!114 &1938829101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938829097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b66105f2b24d2241b976dc12b8e6a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bord_W: {fileID: 180306612650380341, guid: 9ec6a6276a9e9584a81452758e0fbed0, type: 3}
+  Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
+  X: 7
+  Y: 7
 --- !u!1 &1957530589
 GameObject:
   m_ObjectHideFlags: 0

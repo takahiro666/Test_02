@@ -5,18 +5,16 @@ using UnityEngine.UI;
 
 public class Player_cost : MonoBehaviour
 {
-    public Text Player1_cos;//プレイヤー1のコスト
-    public Text Player2_cos;//プレイヤー2のコスト
-    public  int P1_cos;
-    private int P2_cos;
+    public Text Player1_cos;
+    public Text Player2_cos;
+    public  int P1_cos;//プレイヤー1のコスト
+    public int P2_cos;  //プレイヤー2のコスト
     private int max = 5;
-    Bord trn;
+    Pice trn;
     // Start is called before the first frame update
     void Start()
     {
-        P1_cos = 0;
-        P2_cos = 0;
-        trn = GameObject.Find("gamelot").GetComponentInChildren<Bord>();
+        trn = GameObject.Find("gamelot").GetComponentInChildren<Pice>();
         Player1_cos=GameObject.Find("Player1_cost").GetComponent<Text>();
         Player2_cos= GameObject.Find("Player2_cost").GetComponent<Text>();
     }
@@ -24,9 +22,9 @@ public class Player_cost : MonoBehaviour
     // Update is called once per frame
    public void PCost()
     {
-        if (trn.trun % 2 != 0)//プレイヤー２のコストを1プラス
+        if (trn.trun % 2 != 0)//プレイヤー２のコスト加算処理
         {
-            if(P2_cos<max)
+            if (P2_cos<max)
             {
                 P2_cos++;
                 Player2_cos.text = P2_cos.ToString();
@@ -34,7 +32,7 @@ public class Player_cost : MonoBehaviour
             else
                 Player2_cos.text = P2_cos.ToString();
         }
-        else//プレイヤー1のコストを1プラス
+        else//プレイヤー1のコスト加算処理
         {
             if(P1_cos <max)
             {
