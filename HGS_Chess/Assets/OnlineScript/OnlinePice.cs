@@ -6,13 +6,11 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
+[RequireComponent(typeof(PhotonView))]
 public class OnlinePice: MonoBehaviourPunCallbacks
 {
 
-    
-    public int id;
-    private PhotonView photonView;
-    //※園城追加=================================================
+        //※園城追加=================================================
     public static OnlinePice Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
 
@@ -75,7 +73,6 @@ public class OnlinePice: MonoBehaviourPunCallbacks
                 {
                     //駒が動かせる状態か
                     MoveChess(selectionX, selectionY);
-
                 }
             }
         }
@@ -276,16 +273,13 @@ public class OnlinePice: MonoBehaviourPunCallbacks
     {
         if (trun % 2 != 0)
         {
-
             tex.color = new Color(1, 0, 0, 1);
             tex.text = "Player1のターン";
-
         }
         else
         {
             tex.color = new Color(0, 0, 1, 1);
             tex.text = "Player2のターン";
         }
-
     }
 }

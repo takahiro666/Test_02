@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class OnlineBord : MonoBehaviour
+public class OnlineBord : MonoBehaviourPunCallbacks
 {
     public GameObject Bord_W;
     public GameObject Bord_B;

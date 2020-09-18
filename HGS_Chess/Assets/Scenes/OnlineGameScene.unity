@@ -1033,6 +1033,7 @@ MonoBehaviour:
   Player1_cos: {fileID: 896630052}
   Player2_cos: {fileID: 586369641}
   P1_cos: 0
+  P2_cos: 0
 --- !u!222 &1834723999
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1050,10 +1051,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1938829099}
-  - component: {fileID: 1938829098}
   - component: {fileID: 1938829100}
   - component: {fileID: 1938829102}
   - component: {fileID: 1938829101}
+  - component: {fileID: 1938829103}
+  - component: {fileID: 1938829098}
   m_Layer: 0
   m_Name: gamelot
   m_TagString: Untagged
@@ -1070,11 +1072,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1938829097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b523f4e69566154787012299beb0810, type: 3}
+  m_Script: {fileID: 11500000, guid: 50dc927b862c81445a919a40c43af629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bord_W: {fileID: 180306612650380341, guid: 9ec6a6276a9e9584a81452758e0fbed0, type: 3}
-  Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
   chessmPrefabs:
   - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
   - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
@@ -1152,6 +1152,22 @@ MonoBehaviour:
   viewIdField: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &1938829103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938829097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3df01cdf7d5a74886a487fb419db49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bord_W: {fileID: 180306612650380341, guid: 9ec6a6276a9e9584a81452758e0fbed0, type: 3}
+  Bord_B: {fileID: 9024092373244585714, guid: a69c611bb670bd84f9031dfb9e8b5537, type: 3}
+  X: 7
+  Y: 7
 --- !u!1 &2010519340
 GameObject:
   m_ObjectHideFlags: 0

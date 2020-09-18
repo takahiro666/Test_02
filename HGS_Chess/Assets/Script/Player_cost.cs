@@ -10,11 +10,11 @@ public class Player_cost : MonoBehaviour
     public  int P1_cos;//プレイヤー1のコスト
     public int P2_cos;  //プレイヤー2のコスト
     private int max = 5;
-    Pice trn;
+    OnlinePice trn;
     // Start is called before the first frame update
     void Start()
     {
-        trn = GameObject.Find("gamelot").GetComponentInChildren<Pice>();
+        trn = GameObject.Find("gamelot").GetComponentInChildren<OnlinePice>();
         Player1_cos=GameObject.Find("Player1_cost").GetComponent<Text>();
         Player2_cos= GameObject.Find("Player2_cost").GetComponent<Text>();
     }
