@@ -12,45 +12,46 @@ public class Pice : MonoBehaviour
     //※園城追加=================================================
     public static Pice Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
-
     public Move[,] moves { set; get; }
     private Move selectedChess;
-
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;
-
     private int selectionX = -1;
     private int selectionY = -1;
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
-
     private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
-
     bool hasAtleastOneMove = false;
-
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
-    public int X;
-    public int Y;
+    public int X;   //チェス盤の横軸長さ
+    public int Y;   //チェス盤の縦軸の長さ
     public Text tex;
-    public Text Player1_cos;
-    public Text Player2_cos;
+    public Text Player1_cos;    //プレイヤー1コストのテキスト
+    public Text Player2_cos;    //プレイヤー2コストのテキスト
     private int P1_cos;//プレイヤー1のコスト
     private int P2_cos;//プレイヤー2のコスト
     private int maxcos = 5;//コストの最大値
     public  int trun=1;//ターン数
     Fade_trun fade; //自分のターンと相手のターンのフェード
+    public GameObject but;     //進化ボタン
+    public GameObject evopice;  //進化先のピースのボタン
+    public GameObject instanpice;//生成のボタン
+    public GameObject pawnbutton;//ポーンのボタン
+    int xpos, ypos;//進化元のオブジェクトの座標
+    GameObject destryobj ;//進化元のオブジェクト
+    bool buttrue;//進化ボタンのフラグ
     //=====================================================
 
     private void Start()
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
-        tex =GameObject.Find("trun").GetComponentInChildren<Text>();
-        Player1_cos = GameObject.Find("Player1_cost").GetComponent<Text>();
-        Player2_cos = GameObject.Find("Player2_cost").GetComponent<Text>();
         P1_cos = 1;   //プレイヤー１のターン数
         Player1_cos.text =P1_cos.ToString();//プレイヤー１のターン数をtextに表示
+        but.SetActive(false);//進化ボタンを非表示にする
+        evopice.SetActive(false);
+        instanpice.SetActive(false);
+        pawnbutton.SetActive(false);
         ChangeTurn();
-        
         //==============
         Instance = this;
         //==============
@@ -64,30 +65,31 @@ public class Pice : MonoBehaviour
         DrawChess();
         fade.Change();
         //進化フェーズの処理
-        //進化のメソッドの呼び出し
         if (Input.GetMouseButtonDown(0))
         {
-           
-            //var childTransform = GameObject.Find("gamelot").transform;
-            //foreach (Transform child in childTransform.transform)//子オブジェクトを探す
-            //{          
-            //    Debug.Log(child);
-            //}
+            RayHItObj();
             if (selectionX >= 0 && selectionY >= 0)
             {
                 if (selectedChess == null)
                 {
                     //チェスが選択された
                     SelectChess(selectionX, selectionY);
+                if (trun >= 3)
+                    instanpice.SetActive(true);
                 }
                 else
                 {
                     //駒が動かせる状態か
                     MoveChess(selectionX, selectionY);
-                    
-                }               
-            }
-        }
+                    if (trun >= 3)
+                    {
+                         but.SetActive(false);
+                        instanpice.SetActive(false);                            
+                    }
+                        
+                }
+            }         
+        }      
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
     private void UpdateSlection()
@@ -101,12 +103,12 @@ public class Pice : MonoBehaviour
         //Debug.DrawRay(ray.origin, ray.direction * 20.0f);
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))
-        {
-            
+        {          
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
+            //レイを作成しコライダーに当たったら色を変える
             if (hit.collider.gameObject.GetComponent<changecolor>())
-            {
+            {               
                 hit.collider.gameObject.GetComponent<changecolor>().selectflg = true;
             }
         }
@@ -118,19 +120,18 @@ public class Pice : MonoBehaviour
     }
     //================================================================================================================
 
-
     //※駒の位置==========================================================================
     private void SpawnAllChess()
     {
         activeChessm = new List<GameObject>();
-        moves = new Move[7, 7];
+        moves = new Move[X, Y];
         //白駒生成位置=================================================================
         for (int i = 1; i < X - 1; i++)
         {
             if (i != 0 && i < X)
             {
                 if (i != 3)
-                    PiceCreat(1, i, 0);
+                    PiceCreat(1, i, 0);     //PiceCreat(リストの番号,x座標,y座標)
                 else
                     PiceCreat(0, i, 0);
             }
@@ -146,58 +147,7 @@ public class Pice : MonoBehaviour
                     PiceCreat(2, i, Y - 1);
             }
         }
-
-        /*白駒生成part1
-         //king
-         PiceCreat(0, 3, 0);
-
-         //Queen
-         PiceCreat(1, 4, 0);
-
-         //Rooks
-         PiceCreat(2, 0, 0);
-         PiceCreat(2, 7, 0);
-
-         //Bishops
-         PiceCreat(3, 2, 0);
-         PiceCreat(3, 5, 0);
-
-         //Night
-         PiceCreat(4, 1, 0);
-         PiceCreat(4, 6, 0);
-
-         //Pawns
-         for (int i = 0; i < 7; i++)
-         {
-             PiceCreat(5, i, 1);
-         }
-
-         //黒駒生成位置======================================================
-         //king
-         PiceCreat(6, 3, 7);
-
-         //Queen
-         PiceCreat(7, 4, 7);
-
-         //Rooks
-         PiceCreat(8, 0, 7);
-         PiceCreat(8, 7, 7);
-
-         //Bishops
-         PiceCreat(9, 2, 7);
-         PiceCreat(9, 5, 7);
-
-         //Night
-         PiceCreat(10, 1, 7);
-         PiceCreat(10, 6, 7);
-
-         //Pawns
-         for (int i = 0; i < 8; i++)
-         {
-             PiceCreat(11, i, 6);
-         }*/
     }
-
     //駒の選択==================================================================
     private void SelectChess(int x, int y)
     {
@@ -206,16 +156,14 @@ public class Pice : MonoBehaviour
 
         if (moves[x, y].isWhite != isWiteTurn)
             return;
-
+            
         allowedMoves = moves[x, y].PossibleMove();
         for (int i = 0; i < X; i++)
             for (int j = 0; j < Y; j++)
                 if (allowedMoves[i, j])
                     hasAtleastOneMove = true;
-
         selectedChess = moves[x, y];
-        BoarHi.Instance.HighlightAllowedMoves(allowedMoves);
-
+        BoarHi.Instance.HighlightAllowedMoves(allowedMoves);    //駒の行動範囲にPlaneを生成
     }
 
     //選択した駒を動かす=================================================================
@@ -230,13 +178,13 @@ public class Pice : MonoBehaviour
                 //駒を捕まえたとき
                 //キングかどうか
                 if (c.GetType() == typeof(King))
-                {   //ゲーム終了
+                {
+                    //ゲーム終了
                     SceneManager.LoadScene("TitleScene");
                     //EndGame();
                     //return;
                 }
-                //P1がP2の駒を取った時にP1のコストを+1
-                if (isWiteTurn )
+                if (isWiteTurn) //P1がP2の駒を取った時にP1のコストを+1
                 {
                     if(P1_cos <maxcos)
                     {
@@ -245,7 +193,7 @@ public class Pice : MonoBehaviour
                     }
                    
                 }
-                else 
+                else //P2がP1の駒を取った時に21のコストを+1
                 {
                     if (P2_cos < maxcos)
                     {
@@ -253,10 +201,9 @@ public class Pice : MonoBehaviour
                         Player2_cos.text = P2_cos.ToString();
                     }
                 }
-                    activeChessm.Remove(c.gameObject);
+                activeChessm.Remove(c.gameObject);
                 Destroy(c.gameObject);  //消滅させる
             }
-
             moves[selectedChess.CurrentX, selectedChess.CurrentY] = null;
             selectedChess.transform.position = GetTileCenter(x, y);
             selectedChess.SetPosition(x, y);
@@ -285,20 +232,15 @@ public class Pice : MonoBehaviour
             moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
         }
-        else
+        else//白駒の
         {
             GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
             go.transform.SetParent(transform);
             moves[x, y] = go.GetComponent<Move>();
             moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
-            moves[x, y] = go.GetComponent<Move>();
-            moves[x, y].SetPosition(x, y);
-
         }
     }
-
-
     //※駒を中心に乗せる======================================================================
     private Vector3 GetTileCenter(int x, int y)
     {
@@ -309,8 +251,8 @@ public class Pice : MonoBehaviour
         return origin;
     }
 
-    //自分の真進カーソルの位置を描画==========================================================
-    private void DrawChess()
+    //自分の真進カーソルの位置を描画チェス盤をギズモで見れるようにする================================-
+    private void DrawChess()    
     {
         Vector3 widthLine = Vector3.right * X;
         Vector3 heigthLine = Vector3.forward * Y;
@@ -332,7 +274,7 @@ public class Pice : MonoBehaviour
                 Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1));
         }
     }
-    //キング取られたときのゲーム終了処理
+    //キング取られたときのゲーム終了処理=========================================================
     private void EndGame()
     {
         if (isWiteTurn)
@@ -347,11 +289,14 @@ public class Pice : MonoBehaviour
         isWiteTurn = true;
         BoarHi.Instance.Hidehighlights();
         SpawnAllChess();
+        but.SetActive(false);//進化ボタンを非表示にする
+
+       
     }
-    //プレイヤー1とプレイヤー2のターンを表示する
+    //プレイヤー1とプレイヤー2のターンを表示する============================================================
     private void ChangeTurn()
     {
-        if (trun % 2 != 0)
+        if (isWiteTurn)
         {
 
             tex.color = new Color(1, 0, 0, 1);
@@ -364,7 +309,8 @@ public class Pice : MonoBehaviour
             tex.text = "Player2のターン";
         }
     }
-    private void PCost()　//コスト処理
+    //コスト処理======================================
+    private void PCost()　
     {
         if (trun % 2 != 0)//プレイヤー２のコスト加算処理
         {
@@ -387,14 +333,139 @@ public class Pice : MonoBehaviour
                 Player1_cos.text = P1_cos.ToString();
         }
     }
-    //駒の進化
+    //進化ボタンを押したときの処理
+    public void Evolution_Button()
+    {
+        but.SetActive(false);
+        evopice.SetActive(true);
+        instanpice.SetActive(false);
+    }
+    public void InstanPice()
+    {
+        instanpice.SetActive(false);
+        pawnbutton.SetActive(true);
+        but.SetActive(false);
+    }
+    private void RayHItObj()//進化元のオブジェクトの位置取得
+    {
+        if (!Camera.main)
+            return;
+
+        //進化フェーズが終わり次のフェーズの呼び出し
+        Vector3 pos = Input.mousePosition;
+        pos.z = 10.0f;
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
+        {
+            if(Input.GetMouseButton(0))
+            {
+                if (trun >= 3)
+                {
+                    but.SetActive(true);//進化ボタンを表示する
+                    evopice.SetActive(false);
+                    instanpice.SetActive(false);
+                }
+                xpos = (int)hit.point.x;
+                ypos = (int)hit.point.z;
+                destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
+            }
+        }
+        else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する{
+        {
+            instanpice.SetActive(false);
+            xpos = (int)hit.point.x;
+            ypos = (int)hit.point.z;
+        }
+    }
+    //駒の進化===================================================================================-
     public void PiceEvolution_Knight()//ナイトの進化処理
     {
-
-        if (trun % 2 != 0)
-            PiceCreat(4, 0, 0);   //knight生成
-        else
-            PiceCreat(5, 0, 6);
-        //進化フェーズが終わり次のフェーズの呼び出し
+        if (isWiteTurn && P1_cos >= 2)
+        {
+            Destroy(destryobj);    
+            PiceCreat(4, xpos, ypos);   //knight生成
+            P1_cos = P1_cos - 2;
+            Player1_cos.text = P1_cos.ToString();
+        }
+        else if (!isWiteTurn && P2_cos >= 2)
+        {
+            Destroy(destryobj);
+            PiceCreat(5, xpos, ypos);   //knight生成
+            P2_cos = P2_cos - 2;
+            Player2_cos.text = P2_cos.ToString();
+        }
+        
+    }
+    //ルークの進化処理
+    public void PiceEvolution_Rook()
+    {
+        if(isWiteTurn &&P1_cos>=3)
+        {
+            Destroy(destryobj);
+            PiceCreat(6, xpos, ypos);   //rook生成
+            P1_cos = P1_cos - 3;
+            Player1_cos.text = P1_cos.ToString();
+        }
+        else if(!isWiteTurn && P2_cos >=3)
+        {
+            Destroy(destryobj);
+            PiceCreat(7, xpos, ypos);   //rook生成
+            P2_cos = P2_cos - 3;
+            Player2_cos.text = P2_cos.ToString();
+        }
+    }
+    //ビショップの進化処理
+    public void PiceEvolution_Bishop()
+    {
+        if (isWiteTurn && P1_cos >= 3)
+        {
+            Destroy(destryobj);
+            PiceCreat(8, xpos, ypos);   //rook生成
+            P1_cos = P1_cos - 3;
+            Player1_cos.text = P1_cos.ToString();
+        }
+        else if (!isWiteTurn && P2_cos >= 3)
+        {
+            Destroy(destryobj);
+            PiceCreat(9, xpos, ypos);   //rook生成
+            P2_cos = P2_cos - 3;
+            Player2_cos.text = P2_cos.ToString();
+        }
+    }
+    //クイーン進化処理
+    public void PiceEvolution_Queen()
+    {
+        if (isWiteTurn && P1_cos >= 4)
+        {
+            Destroy(destryobj);
+            PiceCreat(10, xpos, ypos);   //rook生成
+            P1_cos = P1_cos - 4;
+            Player1_cos.text = P1_cos.ToString();
+        }
+        else if (!isWiteTurn && P2_cos >= 4)
+        {
+            Destroy(destryobj);
+            PiceCreat(11, xpos, ypos);   //rook生成
+            P2_cos = P2_cos - 4;
+            Player2_cos.text = P2_cos.ToString();
+        }
+    }
+    //ポーン生成処理
+    public void Pawninstant()
+    {
+        if (isWiteTurn && P1_cos >= 1)
+        {
+            PiceCreat(1, xpos, ypos);  
+            P1_cos = P1_cos - 1;
+            Player1_cos.text = P1_cos.ToString();
+        }
+        else if (!isWiteTurn && P2_cos >= 1)
+        {
+            PiceCreat(3, xpos, ypos);   
+            P2_cos = P2_cos - 1;
+            Player2_cos.text = P2_cos.ToString();
+        }
+        pawnbutton.SetActive(false);
     }
 }

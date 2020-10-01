@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 94699588998480678}
   - component: {fileID: -5204175543985905475}
   - component: {fileID: 5713791044206768917}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WT_pawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  hp: 3
+  at: 1

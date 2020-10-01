@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9116295498428441261}
   - component: {fileID: 2299573058958157687}
   - component: {fileID: -2683212893659294943}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WT_rook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  hp: 3
+  at: 1

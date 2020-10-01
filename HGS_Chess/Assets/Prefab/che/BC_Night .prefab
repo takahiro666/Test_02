@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8136490959688994203}
   - component: {fileID: -4062094761688223121}
   - component: {fileID: -6639541548992891444}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 'BC_Night '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 0
+  hp: 3
+  at: 1

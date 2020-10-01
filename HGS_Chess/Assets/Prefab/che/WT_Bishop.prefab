@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6859966230570683896}
   - component: {fileID: 408638738776422649}
   - component: {fileID: 2595697465490053075}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WT_Bishop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  hp: 3
+  at: 1
