@@ -74,8 +74,6 @@ public class Pice : MonoBehaviour
                 {
                     //チェスが選択された
                     SelectChess(selectionX, selectionY);
-                if (trun >= 3)
-                    instanpice.SetActive(true);
                 }
                 else
                 {
@@ -371,9 +369,10 @@ public class Pice : MonoBehaviour
                 destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
             }
         }
-        else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する{
+        else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
-            instanpice.SetActive(false);
+            if (trun >= 3 && ypos<=0 || ypos>=6)
+            instanpice.SetActive(true);
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
         }
@@ -454,13 +453,13 @@ public class Pice : MonoBehaviour
     //ポーン生成処理
     public void Pawninstant()
     {
-        if (isWiteTurn && P1_cos >= 1)
+        if (isWiteTurn && P1_cos >= 1 && ypos<=0)
         {
             PiceCreat(1, xpos, ypos);  
             P1_cos = P1_cos - 1;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (!isWiteTurn && P2_cos >= 1)
+        else if (!isWiteTurn && P2_cos >= 1 && ypos <=6)
         {
             PiceCreat(3, xpos, ypos);   
             P2_cos = P2_cos - 1;
