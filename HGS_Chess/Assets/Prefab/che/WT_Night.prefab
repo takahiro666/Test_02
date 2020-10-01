@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5708514379104382934}
   - component: {fileID: -8069813247489710697}
   - component: {fileID: -7549935654969926583}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WT_Night
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  hp: 3
+  at: 1

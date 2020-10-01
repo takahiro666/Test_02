@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7519710893857314356}
   - component: {fileID: 8658192786181308095}
   - component: {fileID: 6405457526364526126}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 'BC_Qween '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 0
+  hp: 3
+  at: 1

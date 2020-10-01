@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2336920088345116861}
   - component: {fileID: 950559571951348104}
   - component: {fileID: 5815142588659337431}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 'BC_pawn '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 0
+  hp: 3
+  at: 1

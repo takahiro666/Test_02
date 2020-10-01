@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6230797303732894937}
   - component: {fileID: -3477718673393579200}
   - component: {fileID: -1398553105380266044}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WT_King
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 1
+  hp: 3
+  at: 1

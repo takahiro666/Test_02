@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6916429866724264826}
   - component: {fileID: 5854199721294844521}
   - component: {fileID: 5091388392538030726}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 'BC_King '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWhite: 0
+  hp: 3
+  at: 1
