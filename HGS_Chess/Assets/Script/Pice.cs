@@ -379,8 +379,10 @@ public class Pice : MonoBehaviour
         }
         else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
-            if (trun >= 3 &&  ypos<=0 || ypos>=6)
-            instanpice.SetActive(true);
+            if (trun >= 3 && ypos <= 0 || ypos >= 6)
+                instanpice.SetActive(true);
+            else
+                instanpice.SetActive(false);
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
         }
