@@ -47,6 +47,12 @@ public class Pice : MonoBehaviour
     GameObject destryobj ;//進化元のオブジェクト
     //=====================================================
 
+    //※青木追加===========================================
+
+    public GameObject MagicCircle;
+
+    //=====================================================
+
     private void Start()
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
