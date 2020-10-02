@@ -13,18 +13,22 @@ public class Pice : MonoBehaviour
     public static Pice Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
     public Move[,] moves { set; get; }
+
     private Move selectedChess;
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;
     private int selectionX = -1;
     private int selectionY = -1;
+
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
+
     private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
     bool hasAtleastOneMove = false;
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     public int X;   //チェス盤の横軸長さ
     public int Y;   //チェス盤の縦軸の長さ
+
     public Text tex;
     public Text Player1_cos;    //プレイヤー1コストのテキスト
     public Text Player2_cos;    //プレイヤー2コストのテキスト
@@ -33,13 +37,14 @@ public class Pice : MonoBehaviour
     private int maxcos = 5;//コストの最大値
     public  int trun=1;//ターン数
     Fade_trun fade; //自分のターンと相手のターンのフェード
+
     public GameObject but;     //進化ボタン
     public GameObject evopice;  //進化先のピースのボタン
     public GameObject instanpice;//生成のボタン
     public GameObject pawnbutton;//ポーンのボタン
+
     int xpos, ypos;//進化元のオブジェクトの座標
     GameObject destryobj ;//進化元のオブジェクト
-    bool buttrue;//進化ボタンのフラグ
     //=====================================================
 
     private void Start()
@@ -356,8 +361,6 @@ public class Pice : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
         {
-            if(Input.GetMouseButton(0))
-            {
                 if (trun >= 3)
                 {
                     but.SetActive(true);//進化ボタンを表示する
@@ -367,11 +370,10 @@ public class Pice : MonoBehaviour
                 xpos = (int)hit.point.x;
                 ypos = (int)hit.point.z;
                 destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
-            }
         }
         else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
-            if (trun >= 3 && ypos<=0 || ypos>=6)
+            if (trun >= 3 &&  ypos<=0 || ypos>=6)
             instanpice.SetActive(true);
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
