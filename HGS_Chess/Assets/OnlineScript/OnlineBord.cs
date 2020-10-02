@@ -15,8 +15,8 @@ public class OnlineBord : MonoBehaviourPunCallbacks
     void Start()
     {
         Chessbord = new int[X, Y];
-        BordArray();
-        MapCreate();
+        //BordArray();
+        //MapCreate();
     }
 
     // Update is called once per frame
@@ -66,5 +66,11 @@ public class OnlineBord : MonoBehaviourPunCallbacks
             }
         }
     }
-
+    public override void OnJoinedRoom()
+    {
+        MapCreate();
+        Debug.Log("マップ");
+        BordArray();
+        Debug.Log("盤面");
+    }
 }

@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
-[RequireComponent(typeof(PhotonView))]
 public class OnlinePice: MonoBehaviourPunCallbacks
 {
 
-        //※園城追加=================================================
+    //※園城追加=================================================
     public static OnlinePice Instance { set; get; }
     private bool[,] allowedMoves { set; get; }
 
@@ -22,7 +21,8 @@ public class OnlinePice: MonoBehaviourPunCallbacks
 
     private int selectionX = -1;
     private int selectionY = -1;
-    public List<GameObject> chessmPrefabs;
+    
+    public  List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
 
     private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
@@ -36,6 +36,11 @@ public class OnlinePice: MonoBehaviourPunCallbacks
     public int trun = 1;//ターン数
     Fade_trun fade; //自分のターンと相手のターンのフェード
     public Player_cost P1cos;//プレイヤーのコスト
+
+    //playerナンバー用
+    PunMg punmg;
+    int Player_Num;
+
     //=====================================================
   
 
@@ -46,35 +51,43 @@ public class OnlinePice: MonoBehaviourPunCallbacks
         P1cos = GameObject.Find("Canvas").GetComponent<Player_cost>();
         //P1cos.PCost();
         ChangeTurn();
-      
+
+        //playerナンバー設定
+        punmg = GameObject.Find("PunMg").GetComponent<PunMg>();
+        Player_Num = punmg.Player_Number();
+
         //==============
         Instance = this;
         //==============
        
-        SpawnAllChess();
+       //SpawnAllChess();
         // Debug.Log(trun + "ターン目");
     }
 
     void Update()
     {
-        UpdateSlection();
-        DrawChess();
-        fade.Change();
-        if (Input.GetMouseButtonDown(0))
+        if (photonView.IsMine != true)
         {
-            if (selectionX >= 0 && selectionY >= 0)
+            if (Input.GetMouseButtonDown(0))
             {
-                if (selectedChess == null)
+                if (selectionX >= 0 && selectionY >= 0)
                 {
-                    //チェスが選択された
-                    SelectChess(selectionX, selectionY);
-                }
-                else
-                {
-                    //駒が動かせる状態か
-                    MoveChess(selectionX, selectionY);
+                    if (selectedChess == null)
+                    {
+                        //チェスが選択された
+                        SelectChess(selectionX, selectionY);
+                    }
+                    else
+                    {
+                        //駒が動かせる状態か
+                        MoveChess(selectionX, selectionY);
+                    }
                 }
             }
+            UpdateSlection();
+            DrawChess();
+            fade.Change();
+            GetComponent<OnlinePice>().enabled = false;
         }
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
@@ -108,34 +121,42 @@ public class OnlinePice: MonoBehaviourPunCallbacks
 
    
     //※駒の位置==========================================================================
-    private void SpawnAllChess()
+    public void SpawnAllChess()
     {
         activeChessm = new List<GameObject>();
         moves = new Move[7, 7];
         //白駒生成位置=================================================================
-        for (int i = 1; i < X - 1; i++)
+        if (Player_Num == 1) 
         {
-            if (i != 0 && i < X)
+            for (int i = 1; i < X - 1; i++)
             {
-                if (i != 3)
-                    PiceCreat(1, i, 0);
-                else
-                    PiceCreat(0, i, 0);
+                if (i != 0 && i < X)
+                {
+                    if (i != 3)
+                        PiceCreat(1, i, 0);
+                    else
+                        PiceCreat(0, i, 0);
+                }
             }
+            Debug.Log(Player_Num);
         }
+
         //黒駒生成位置================================================================
-        for (int i = 1; i < X - 1; i++)
+        else
         {
-            if (i != 0 && i < X)
+            for (int i = 1; i < X - 1; i++)
             {
-                if (i != 3)
-                    PiceCreat(3, i, Y - 1);
-                else
-                    PiceCreat(2, i, Y - 1);
+                if (i != 0 && i < X)
+                {
+                    if (i != 3)
+                        PiceCreat(3, i, Y - 1);
+                    else
+                        PiceCreat(2, i, Y - 1);
+                }
             }
+            Debug.Log(Player_Num);
         }
     }
-
     //駒の選択==================================================================
     private void SelectChess(int x, int y)
     {
@@ -159,7 +180,6 @@ public class OnlinePice: MonoBehaviourPunCallbacks
     //選択した駒を動かす=================================================================
     private void MoveChess(int x, int y)
     {
-
         if (allowedMoves[x, y])
         {
             Move c = moves[x, y];
@@ -197,27 +217,32 @@ public class OnlinePice: MonoBehaviourPunCallbacks
     //※駒の生成===============================================================================
     private void PiceCreat(int index, int x, int y)
     {
-        if (index < 2)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
+        if (Player_Num == 1)//黒駒
         {
-            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), Quaternion.identity) as GameObject;
-            go.transform.SetParent(transform);
-            moves[x, y] = go.GetComponent<Move>();
-            moves[x, y].SetPosition(x, y);
-            activeChessm.Add(go);
+            if (index < 2)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
+            {
+                GameObject go = PhotonNetwork.Instantiate(chessmPrefabs[index].name, GetTileCenter(x, y), Quaternion.identity) as GameObject;
+                Debug.Log("できた");
+                //GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), Quaternion.identity) as GameObject;
+                go.transform.SetParent(transform);
+                moves[x, y] = go.GetComponent<Move>();
+                moves[x, y].SetPosition(x, y);
+                activeChessm.Add(go);
+            }
         }
-        else
+        else //白駒
         {
-            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
+            GameObject go = PhotonNetwork.Instantiate(chessmPrefabs[index].name, GetTileCenter(x, y), orientation) as GameObject;
+            Debug.Log("できた!!");
+            //GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
             go.transform.SetParent(transform);
             moves[x, y] = go.GetComponent<Move>();
             moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
             moves[x, y] = go.GetComponent<Move>();
             moves[x, y].SetPosition(x, y);
-
         }
     }
-
 
     //※駒を中心に乗せる======================================================================
     private Vector3 GetTileCenter(int x, int y)

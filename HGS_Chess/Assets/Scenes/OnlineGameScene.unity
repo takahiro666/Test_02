@@ -1076,10 +1076,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chessmPrefabs:
-  - {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
-  - {fileID: 94699588998480673, guid: b2667becf89cb1b42b2d4be2bc7e0de0, type: 3}
-  - {fileID: 6916429866724264829, guid: 4c101c31f1057534189cc0380ffcd75f, type: 3}
-  - {fileID: 2336920088345116862, guid: 0e027f2d996562a449ec72b1834bd1e2, type: 3}
+  - {fileID: 6230797303732894936, guid: f91bd19a1ff310b4a8f74f0b7df9a079, type: 3}
+  - {fileID: 94699588998480673, guid: 1a18ef4dd98656940a768cb05fad77f4, type: 3}
+  - {fileID: 6916429866724264829, guid: 7d311b454f335be4da7c3a0c74963584, type: 3}
+  - {fileID: 2336920088345116862, guid: b02ef2f4869bdc041858ef1e81e3f6a8, type: 3}
   isWiteTurn: 1
   X: 7
   Y: 7
