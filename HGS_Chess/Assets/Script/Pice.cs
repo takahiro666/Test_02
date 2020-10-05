@@ -45,6 +45,7 @@ public class Pice : MonoBehaviour
 
     int xpos, ypos;//進化元のオブジェクトの座標
     GameObject destryobj ;//進化元のオブジェクト
+    GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
     //=====================================================
 
     //※青木追加===========================================
@@ -342,12 +343,15 @@ public class Pice : MonoBehaviour
                 Player1_cos.text = P1_cos.ToString();
         }
     }
+   
     //進化ボタンを押したときの処理
     public void Evolution_Button()
     {
-        but.SetActive(false);
-        evopice.SetActive(true);
-        instanpice.SetActive(false);
+            but.SetActive(false);
+            evopice.SetActive(true);
+            instanpice.SetActive(false);
+        pawnbutton.SetActive(false);
+    
     }
     public void InstanPice()
     {
@@ -367,56 +371,63 @@ public class Pice : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
         {
-                if (trun >= 3)
-                {
-                    but.SetActive(true);//進化ボタンを表示する
-                    evopice.SetActive(false);
-                    instanpice.SetActive(false);
-                }
-                xpos = (int)hit.point.x;
-                ypos = (int)hit.point.z;
-                destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
+            if (trun >= 3)
+            {
+                but.SetActive(true);//進化ボタンを表示する
+                evopice.SetActive(false);
+                instanpice.SetActive(false);
+                pawnbutton.SetActive(false);
+            }
+            xpos = (int)hit.point.x;
+            ypos = (int)hit.point.z;
+            destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
+            Debug.Log(destryobj.tag);
+
         }
         else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
-            if (trun >= 3 && ypos <= 0 || ypos >= 6)
-                instanpice.SetActive(true);
-            else
-                instanpice.SetActive(false);
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
+            if (trun >= 3 && ypos < 1 || ypos >5)
+            {
+                instanpice.SetActive(true);
+                evopice.SetActive(false);          
+            }
+            else
+                instanpice.SetActive(false);
+           
         }
     }
+
     //駒の進化===================================================================================-
     public void PiceEvolution_Knight()//ナイトの進化処理
     {
-        if (isWiteTurn && P1_cos >= 2)
-        {
-            Destroy(destryobj);    
-            PiceCreat(4, xpos, ypos);   //knight生成
-            P1_cos = P1_cos - 2;
-            Player1_cos.text = P1_cos.ToString();
+        if (isWiteTurn && P1_cos >= 2 && destryobj.tag == "Wite")
+        {           
+                Destroy(destryobj);
+                PiceCreat(4, xpos, ypos);   //knight生成
+                P1_cos = P1_cos - 2;
+                Player1_cos.text = P1_cos.ToString();            
         }
-        else if (!isWiteTurn && P2_cos >= 2)
+        else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag != "Wite")
         {
-            Destroy(destryobj);
-            PiceCreat(5, xpos, ypos);   //knight生成
-            P2_cos = P2_cos - 2;
-            Player2_cos.text = P2_cos.ToString();
+                Destroy(destryobj);
+                PiceCreat(5, xpos, ypos);   //knight生成
+                P2_cos = P2_cos - 2;
+                Player2_cos.text = P2_cos.ToString();                  
         }
-        
     }
     //ルークの進化処理
     public void PiceEvolution_Rook()
     {
-        if(isWiteTurn &&P1_cos>=3)
-        {
-            Destroy(destryobj);
-            PiceCreat(6, xpos, ypos);   //rook生成
-            P1_cos = P1_cos - 3;
-            Player1_cos.text = P1_cos.ToString();
+        if(isWiteTurn && P1_cos >= 3 && destryobj.tag == "Wite")
+        {            
+                Destroy(destryobj);
+                PiceCreat(6, xpos, ypos);   //rook生成
+                P1_cos = P1_cos - 3;
+                Player1_cos.text = P1_cos.ToString();
         }
-        else if(!isWiteTurn && P2_cos >=3)
+        else if(!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
             PiceCreat(7, xpos, ypos);   //rook生成
@@ -427,14 +438,14 @@ public class Pice : MonoBehaviour
     //ビショップの進化処理
     public void PiceEvolution_Bishop()
     {
-        if (isWiteTurn && P1_cos >= 3)
+        if (isWiteTurn && P1_cos >= 3 && destryobj.tag == "Wite")
         {
             Destroy(destryobj);
             PiceCreat(8, xpos, ypos);   //rook生成
             P1_cos = P1_cos - 3;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (!isWiteTurn && P2_cos >= 3)
+        else if (!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
             PiceCreat(9, xpos, ypos);   //rook生成
@@ -445,14 +456,14 @@ public class Pice : MonoBehaviour
     //クイーン進化処理
     public void PiceEvolution_Queen()
     {
-        if (isWiteTurn && P1_cos >= 4)
+        if (/*isWiteTurn &&*/ P1_cos >= 4 && destryobj.tag == "Wite")
         {
             Destroy(destryobj);
             PiceCreat(10, xpos, ypos);   //rook生成
             P1_cos = P1_cos - 4;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (!isWiteTurn && P2_cos >= 4)
+        else if (/*!isWiteTurn && */P2_cos >= 4 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
             PiceCreat(11, xpos, ypos);   //rook生成
@@ -463,13 +474,13 @@ public class Pice : MonoBehaviour
     //ポーン生成処理
     public void Pawninstant()
     {
-        if (isWiteTurn && P1_cos >= 1 && ypos<=0)
+        if (isWiteTurn && P1_cos >= 1 && trun % 2 != 0 && ypos<1)
         {
             PiceCreat(1, xpos, ypos);  
             P1_cos = P1_cos - 1;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (!isWiteTurn && P2_cos >= 1 && ypos <=6)
+        else if (!isWiteTurn && P2_cos >= 1 && trun % 2 == 0 && ypos>5 )
         {
             PiceCreat(3, xpos, ypos);   
             P2_cos = P2_cos - 1;

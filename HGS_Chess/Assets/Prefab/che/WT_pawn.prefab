@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5713791044206768917}
   m_Layer: 10
   m_Name: WT_pawn
-  m_TagString: Untagged
+  m_TagString: Wite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
