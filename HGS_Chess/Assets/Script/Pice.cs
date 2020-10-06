@@ -23,7 +23,8 @@ public class Pice : MonoBehaviour
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
 
-    private Quaternion orientation = Quaternion.Euler(0, 180, 0);//角度調整
+    private Quaternion wite_A = Quaternion.Euler(270, 0, 0);
+    private Quaternion orientation = Quaternion.Euler(270, 180, 0);//黒駒角度調整
     bool hasAtleastOneMove = false;
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     public int X;   //チェス盤の横軸長さ
@@ -141,7 +142,7 @@ public class Pice : MonoBehaviour
             if (i != 0 && i < X)
             {
                 if (i != 3)
-                    PiceCreat(1, i, 0);     //PiceCreat(リストの番号,x座標,y座標)
+                    PiceCreat(5, i, 0);     //PiceCreat(リストの番号,x座標,y座標)
                 else
                     PiceCreat(0, i, 0);
             }
@@ -152,9 +153,9 @@ public class Pice : MonoBehaviour
             if (i != 0 && i < X)
             {
                 if (i != 3)
-                    PiceCreat(3, i, Y - 1);
+                    PiceCreat(11, i,Y - 1);
                 else
-                    PiceCreat(2, i, Y - 1);
+                    PiceCreat(6, i,  Y - 1);
             }
         }
     }
@@ -232,17 +233,17 @@ public class Pice : MonoBehaviour
     }
     //=========================================================================================
     //※駒の生成===============================================================================
-    private void PiceCreat(int index, int x, int y)
+    private void PiceCreat(int index, int x,int y)
     {
-        if (index < 2)   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
+        if (index > 6 )   //このif文を入れないと黒駒がすべて180度回転し反対方向を向く
         {
-            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), Quaternion.identity) as GameObject;
+            GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), wite_A) as GameObject;
             go.transform.SetParent(transform);
             moves[x, y] = go.GetComponent<Move>();
             moves[x, y].SetPosition(x, y);
             activeChessm.Add(go);
         }
-        else//白駒の
+        else //白駒の
         {
             GameObject go = Instantiate(chessmPrefabs[index], GetTileCenter(x, y), orientation) as GameObject;
             go.transform.SetParent(transform);
@@ -412,7 +413,7 @@ public class Pice : MonoBehaviour
         else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag != "Wite")
         {
                 Destroy(destryobj);
-                PiceCreat(5, xpos, ypos);   //knight生成
+                PiceCreat(10, xpos,  ypos);   //knight生成
                 P2_cos = P2_cos - 2;
                 Player2_cos.text = P2_cos.ToString();                  
         }
@@ -423,14 +424,14 @@ public class Pice : MonoBehaviour
         if(isWiteTurn && P1_cos >= 3 && destryobj.tag == "Wite")
         {            
                 Destroy(destryobj);
-                PiceCreat(6, xpos, ypos);   //rook生成
+                PiceCreat(3, xpos,  ypos);   //rook生成
                 P1_cos = P1_cos - 3;
                 Player1_cos.text = P1_cos.ToString();
         }
         else if(!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
-            PiceCreat(7, xpos, ypos);   //rook生成
+            PiceCreat(9, xpos,  ypos);   //rook生成
             P2_cos = P2_cos - 3;
             Player2_cos.text = P2_cos.ToString();
         }
@@ -441,14 +442,14 @@ public class Pice : MonoBehaviour
         if (isWiteTurn && P1_cos >= 3 && destryobj.tag == "Wite")
         {
             Destroy(destryobj);
-            PiceCreat(8, xpos, ypos);   //rook生成
+            PiceCreat(2, xpos,  ypos);   //rook生成
             P1_cos = P1_cos - 3;
             Player1_cos.text = P1_cos.ToString();
         }
         else if (!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
-            PiceCreat(9, xpos, ypos);   //rook生成
+            PiceCreat(8, xpos,ypos);   //rook生成
             P2_cos = P2_cos - 3;
             Player2_cos.text = P2_cos.ToString();
         }
@@ -459,14 +460,14 @@ public class Pice : MonoBehaviour
         if (/*isWiteTurn &&*/ P1_cos >= 4 && destryobj.tag == "Wite")
         {
             Destroy(destryobj);
-            PiceCreat(10, xpos, ypos);   //rook生成
+            PiceCreat(1, xpos,  ypos);   //rook生成
             P1_cos = P1_cos - 4;
             Player1_cos.text = P1_cos.ToString();
         }
         else if (/*!isWiteTurn && */P2_cos >= 4 && destryobj.tag != "Wite")
         {
             Destroy(destryobj);
-            PiceCreat(11, xpos, ypos);   //rook生成
+            PiceCreat(7, xpos,  ypos);   //rook生成
             P2_cos = P2_cos - 4;
             Player2_cos.text = P2_cos.ToString();
         }
@@ -476,13 +477,13 @@ public class Pice : MonoBehaviour
     {
         if (isWiteTurn && P1_cos >= 1 && trun % 2 != 0 && ypos<1)
         {
-            PiceCreat(1, xpos, ypos);  
+            PiceCreat(5, xpos,  ypos);  
             P1_cos = P1_cos - 1;
             Player1_cos.text = P1_cos.ToString();
         }
         else if (!isWiteTurn && P2_cos >= 1 && trun % 2 == 0 && ypos>5 )
         {
-            PiceCreat(3, xpos, ypos);   
+            PiceCreat(11, xpos,  ypos);   
             P2_cos = P2_cos - 1;
             Player2_cos.text = P2_cos.ToString();
         }
