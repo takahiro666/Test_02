@@ -25,7 +25,7 @@ public class Pawn : Move
                 
             }
             //斜め右
-            if (CurrentX != 7 && CurrentY != 6)
+            if (CurrentX != 6 && CurrentY != 6)
             {
                 c = Pice.Instance.moves[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)

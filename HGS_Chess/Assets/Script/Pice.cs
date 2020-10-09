@@ -382,8 +382,7 @@ public class Pice : MonoBehaviour
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
             destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
-            Debug.Log(destryobj.tag);
-
+            //Debug.Log(destryobj.tag);
         }
         else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
@@ -392,7 +391,8 @@ public class Pice : MonoBehaviour
             if (trun >= 3 && ypos < 1 || ypos >5)
             {
                 instanpice.SetActive(true);
-                evopice.SetActive(false);          
+                evopice.SetActive(false);
+                but.SetActive(false);
             }
             else
                 instanpice.SetActive(false);
@@ -410,7 +410,7 @@ public class Pice : MonoBehaviour
                 P1_cos = P1_cos - 2;
                 Player1_cos.text = P1_cos.ToString();            
         }
-        else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag != "Wite")
+        else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag == "Black")
         {
                 Destroy(destryobj);
                 PiceCreat(10, xpos,  ypos);   //knight生成
@@ -428,7 +428,7 @@ public class Pice : MonoBehaviour
                 P1_cos = P1_cos - 3;
                 Player1_cos.text = P1_cos.ToString();
         }
-        else if(!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
+        else if(!isWiteTurn && P2_cos >= 3 && destryobj.tag == "Black")
         {
             Destroy(destryobj);
             PiceCreat(9, xpos,  ypos);   //rook生成
@@ -446,7 +446,7 @@ public class Pice : MonoBehaviour
             P1_cos = P1_cos - 3;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (!isWiteTurn && P2_cos >= 3 && destryobj.tag != "Wite")
+        else if (!isWiteTurn && P2_cos >= 3 && destryobj.tag == "Black")
         {
             Destroy(destryobj);
             PiceCreat(8, xpos,ypos);   //rook生成
@@ -464,7 +464,7 @@ public class Pice : MonoBehaviour
             P1_cos = P1_cos - 4;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (/*!isWiteTurn && */P2_cos >= 4 && destryobj.tag != "Wite")
+        else if (/*!isWiteTurn && */P2_cos >= 4 && destryobj.tag == "Black")
         {
             Destroy(destryobj);
             PiceCreat(7, xpos,  ypos);   //rook生成
