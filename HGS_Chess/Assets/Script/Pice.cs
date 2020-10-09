@@ -49,7 +49,7 @@ public class Pice : MonoBehaviour
         //==============
         Instance = this;
         //==============
-        SpawnAllChess();
+        //SpawnAllChess();
        // Debug.Log(trun + "ターン目");
     }
 
