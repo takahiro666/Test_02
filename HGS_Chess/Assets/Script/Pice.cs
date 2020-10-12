@@ -33,6 +33,7 @@ public class Pice : MonoBehaviour
     public Text tex;
     public Text Player1_cos;    //プレイヤー1コストのテキスト
     public Text Player2_cos;    //プレイヤー2コストのテキスト
+    public Text syohaitex;
     private int P1_cos;//プレイヤー1のコスト
     private int P2_cos;//プレイヤー2のコスト
     private int maxcos = 5;//コストの最大値
@@ -43,10 +44,11 @@ public class Pice : MonoBehaviour
     public GameObject evopice;  //進化先のピースのボタン
     public GameObject instanpice;//生成のボタン
     public GameObject pawnbutton;//ポーンのボタン
+    public GameObject syouhai;
 
     int xpos, ypos;//進化元のオブジェクトの座標
     GameObject destryobj ;//進化元のオブジェクト
-    GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
+    //GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
     //=====================================================
 
     //※青木追加===========================================
@@ -64,6 +66,7 @@ public class Pice : MonoBehaviour
         evopice.SetActive(false);
         instanpice.SetActive(false);
         pawnbutton.SetActive(false);
+        syouhai.SetActive(false);
         ChangeTurn();
         //==============
         Instance = this;
@@ -190,10 +193,8 @@ public class Pice : MonoBehaviour
                 //キングかどうか
                 if (c.GetType() == typeof(King))
                 {
-                    //ゲーム終了
-                    SceneManager.LoadScene("TitleScene");
-                    //EndGame();
-                    //return;
+                    EndGame();
+                    return;
                 }
                 if (isWiteTurn) //P1がP2の駒を取った時にP1のコストを+1
                 {
@@ -288,21 +289,31 @@ public class Pice : MonoBehaviour
     //キング取られたときのゲーム終了処理=========================================================
     private void EndGame()
     {
+        tex.enabled = false;
+        syouhai.SetActive(true);
         if (isWiteTurn)
-            Debug.Log("白チームの勝ち");
+        {
+            syohaitex.color = new Color(1, 0, 0, 1);
+            syohaitex.text = "Player1の勝利";
+            Invoke("EndSern", 2);
+            //Debug.Log("白チームの勝ち");
+        }         
         else
-            Debug.Log("黒チームの勝ち");
-
-        foreach (GameObject go in activeChessm)
+        {
+            syohaitex.color = new Color(0, 0, 1, 1);
+            syohaitex.text = "Player2の勝利";
+            Invoke("EndSern", 2);
+            //Debug.Log("黒チームの勝ち");
+        }
+        foreach (GameObject go in activeChessm)//残ってる駒をデストロイ
             Destroy(go);
-
-        //初期化
-        isWiteTurn = true;
-        BoarHi.Instance.Hidehighlights();
-        SpawnAllChess();
-        but.SetActive(false);//進化ボタンを非表示にする
-
-       
+        
+        ////初期化
+        //isWiteTurn = true;
+        //BoarHi.Instance.Hidehighlights();
+        //SpawnAllChess();
+        //but.SetActive(false);//進化ボタンを非表示にする
+      
     }
     //プレイヤー1とプレイヤー2のターンを表示する============================================================
     private void ChangeTurn()
@@ -457,14 +468,14 @@ public class Pice : MonoBehaviour
     //クイーン進化処理
     public void PiceEvolution_Queen()
     {
-        if (/*isWiteTurn &&*/ P1_cos >= 4 && destryobj.tag == "Wite")
+        if (isWiteTurn && P1_cos >= 4 && destryobj.tag == "Wite")
         {
             Destroy(destryobj);
             PiceCreat(1, xpos,  ypos);   //rook生成
             P1_cos = P1_cos - 4;
             Player1_cos.text = P1_cos.ToString();
         }
-        else if (/*!isWiteTurn && */P2_cos >= 4 && destryobj.tag == "Black")
+        else if (!isWiteTurn && P2_cos >= 4 && destryobj.tag == "Black")
         {
             Destroy(destryobj);
             PiceCreat(7, xpos,  ypos);   //rook生成
@@ -488,5 +499,14 @@ public class Pice : MonoBehaviour
             Player2_cos.text = P2_cos.ToString();
         }
         pawnbutton.SetActive(false);
+    }
+    private void EndSern()//強制的にシーンを移動させる
+    {
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    Debug.Log("A");
+            //ゲーム終了
+            SceneManager.LoadScene("TitleScene");
+        //}
     }
 }
