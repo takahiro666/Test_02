@@ -7,6 +7,7 @@ public class Pawn : Move
     public int hp = 3;
     public int at = 1;
     Pice Pos;
+
     public override bool[,] PossibleMove()
     {
         Pos = GameObject.Find("gamelot").GetComponent<Pice>();
