@@ -53,7 +53,7 @@ public class Pice : MonoBehaviour
 
     //※青木追加===========================================
 
-    public GameObject MagicCircle;
+    //public GameObject MagicCircle;
 
     //=====================================================
 
