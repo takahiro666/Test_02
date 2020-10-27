@@ -13,6 +13,8 @@ public class Pawn : Move
         Pos = GameObject.Find("gamelot").GetComponent<Pice>();
         bool[,] r = new bool[Pos.X, Pos.Y];
         Move c, c2;　
+        
+
 
         //白駒の動き
         if(isWhite)
@@ -22,8 +24,7 @@ public class Pawn : Move
             {
                 c = Pice.Instance.moves[CurrentX - 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
-                    r[CurrentX - 1, CurrentY + 1] = true;
-                
+                    r[CurrentX - 1, CurrentY + 1] = true;                
             }
             //斜め右
             if (CurrentX != 6 && CurrentY != 6)

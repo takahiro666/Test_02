@@ -125,6 +125,7 @@ MonoBehaviour:
   isWhite: 1
   hp: 3
   at: 1
+  PawnSound: {fileID: 8300000, guid: cf480655686030847ba82366f7cb8ea7, type: 3}
 --- !u!1001 &25383021357923142
 PrefabInstance:
   m_ObjectHideFlags: 0
