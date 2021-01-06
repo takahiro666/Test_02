@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+<<<<<<< HEAD
 public class Punmg : MonoBehaviourPunCallbacks
+=======
+public class PunMg : MonoBehaviourPunCallbacks
+>>>>>>> master
 {
     void Start()
     {
@@ -20,6 +24,7 @@ public class Punmg : MonoBehaviourPunCallbacks
         //"room"という名前のルームに参加する(なかったら作って参加)
         PhotonNetwork.JoinOrCreateRoom("room", new RoomOptions(), TypedLobby.Default);
     }
+<<<<<<< HEAD
 
     // マッチングが成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
@@ -28,4 +33,17 @@ public class Punmg : MonoBehaviourPunCallbacks
         GetComponent<King>();
         Debug.Log("ピース");
     }
+=======
+    public override void OnJoinedRoom()
+    {
+        GetComponent<OnlinePice>();
+    }
+    // マッチングが成功した時に呼ばれるコールバック
+    //public override void OnJoinedRoom()
+    //{
+    //    // マッチング後、ランダムな位置に自分自身のネットワークオブジェクトを生成する
+    //    var v = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
+    //    PhotonNetwork.Instantiate("GamePlayer", v, Quaternion.identity);
+    //}
+>>>>>>> master
 }
