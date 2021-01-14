@@ -7,8 +7,13 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using Photon.Realtime;
+<<<<<<< HEAD
+
+public class OnlinePice : MonoBehaviourPunCallbacks { 
+=======
 public class OnlinePice : MonoBehaviourPunCallbacks
 {
+>>>>>>> master
 
     //※園城追加=================================================
     public static OnlinePice Instance { set; get; }
@@ -31,7 +36,10 @@ public class OnlinePice : MonoBehaviourPunCallbacks
     public int X;   //チェス盤の横軸長さ
     public int Y;   //チェス盤の縦軸の長さ
 
+<<<<<<< HEAD
+=======
     //UI
+>>>>>>> master
     public Text tex;
     public Text Player1_cos;    //プレイヤー1コストのテキスト
     public Text Player2_cos;    //プレイヤー2コストのテキスト
@@ -48,17 +56,40 @@ public class OnlinePice : MonoBehaviourPunCallbacks
     public GameObject pawnbutton;//ポーンのボタン
     public GameObject syouhai;
 
+<<<<<<< HEAD
+    private PhotonView m_photonView = null;
+
+    int xpos, ypos;//進化元のオブジェクトの座標
+    GameObject destryobj;//進化元のオブジェクト
+                         //GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
+                         //=====================================================
+=======
     int xpos, ypos;//進化元のオブジェクトの座標
     GameObject destryobj;//進化元のオブジェクト
     //GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
     //=====================================================
+>>>>>>> master
 
     //※青木追加===========================================
 
     //public GameObject MagicCircle;
 
     //=====================================================
+<<<<<<< HEAD
+    public override void OnJoinedRoom()
+    {
+        Update();
+        SpawnAllChess();
+        Debug.Log("発動");
+    }
 
+    void Awake()
+    {
+        m_photonView = GetComponent<PhotonView>();  
+    }
+=======
+
+>>>>>>> master
     private void Start()
     {
         fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
@@ -73,15 +104,27 @@ public class OnlinePice : MonoBehaviourPunCallbacks
         //==============
         Instance = this;
         //==============
+<<<<<<< HEAD
+        //SpawnAllChess();
+        // Debug.Log(trun + "ターン目");
+    }
+
+
+=======
         SpawnAllChess();
         // Debug.Log(trun + "ターン目");
     }
 
+>>>>>>> master
     void Update()
     {
         UpdateSlection();
         DrawChess();
         fade.Change();
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
         //進化フェーズの処理
         if (Input.GetMouseButtonDown(0))
         {
@@ -105,7 +148,14 @@ public class OnlinePice : MonoBehaviourPunCallbacks
 
                 }
             }
+<<<<<<< HEAD
+        }
+        if (!m_photonView.IsMine)
+        {
+            return;
+=======
             but.SetActive(false);
+>>>>>>> master
         }
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
@@ -386,7 +436,10 @@ public class OnlinePice : MonoBehaviourPunCallbacks
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
         {
+<<<<<<< HEAD
+=======
             Debug.Log(hit.collider.gameObject == isWiteTurn);
+>>>>>>> master
             if (trun >= 3)
             {
                 but.SetActive(true);//進化ボタンを表示する
@@ -394,11 +447,18 @@ public class OnlinePice : MonoBehaviourPunCallbacks
                 instanpice.SetActive(false);
                 pawnbutton.SetActive(false);
             }
+<<<<<<< HEAD
+            xpos = (int)hit.point.x;
+            ypos = (int)hit.point.z;
+            destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
+            //Debug.Log(destryobj.tag);
+=======
 
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
             destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
             Debug.Log(destryobj.tag);
+>>>>>>> master
         }
         else if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("ChessPlane")))//ここに進化元を削除する
         {
@@ -414,21 +474,32 @@ public class OnlinePice : MonoBehaviourPunCallbacks
                 instanpice.SetActive(false);
 
         }
+<<<<<<< HEAD
+=======
         //but.SetActive(false);
+>>>>>>> master
     }
 
     //駒の進化===================================================================================-
     public void PiceEvolution_Knight()//ナイトの進化処理
     {
+<<<<<<< HEAD
+        if (isWiteTurn && P1_cos >= 2 && destryobj.tag == "Wite")
+=======
         if (isWiteTurn && destryobj.tag == "Wite" && P1_cos >= 2)
+>>>>>>> master
         {
             Destroy(destryobj);
             PiceCreat(4, xpos, ypos);   //knight生成
             P1_cos = P1_cos - 2;
             Player1_cos.text = P1_cos.ToString();
         }
+<<<<<<< HEAD
+        else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag == "Black")
+=======
 
         if (!isWiteTurn && destryobj.tag == "Black" && P2_cos >= 2)
+>>>>>>> master
         {
             Destroy(destryobj);
             PiceCreat(10, xpos, ypos);   //knight生成
@@ -505,6 +576,10 @@ public class OnlinePice : MonoBehaviourPunCallbacks
             P2_cos = P2_cos - 1;
             Player2_cos.text = P2_cos.ToString();
         }
+<<<<<<< HEAD
+        pawnbutton.SetActive(false);
+=======
+>>>>>>> master
     }
     private void EndSern()//強制的にシーンを移動させる
     {
