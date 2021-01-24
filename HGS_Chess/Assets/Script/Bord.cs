@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bord : MonoBehaviour
 {
-     public GameObject Bord_W;
+    public GameObject Bord_W;
     public GameObject Bord_B;
     public int[,] Chessbord; //基盤
     public int X;

@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
 
-public abstract class Move : MonoBehaviourPunCallbacks
+public abstract class Move : MonoBehaviour
 {
 
     public int CurrentX { set; get; }
@@ -12,12 +10,14 @@ public abstract class Move : MonoBehaviourPunCallbacks
 
     public bool isWhite;//白駒と黒駒を見るためのフラグ(白駒を手動でオンにする)時間があれば自動でできるように
 
-    OnlinePice Pos;
+    //OnlinePice Pos;
+    Pice Pos;
 
     private void Start()
     {
-        Pos = GameObject.Find("gamelot").GetComponent<OnlinePice>();
-        Debug.Log("動く");
+        //Pos = GameObject.Find("gamelot").GetComponent<OnlinePice>();
+        Pos = GameObject.Find("gamelot").GetComponent<Pice>();
+        //Debug.Log("動く");
     }
 
     public void SetPosition(int x,int y)

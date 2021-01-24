@@ -42,12 +42,14 @@ public class Pice : MonoBehaviour
 
     public GameObject but;     //進化ボタン
     public GameObject evopice;  //進化先のピースのボタン
+    public GameObject king,king1;
     public GameObject instanpice;//生成のボタン
     public GameObject pawnbutton;//ポーンのボタン
     public GameObject syouhai;
 
     int xpos, ypos;//進化元のオブジェクトの座標
     GameObject destryobj ;//進化元のオブジェクト
+
     //GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
     //=====================================================
 
@@ -363,7 +365,6 @@ public class Pice : MonoBehaviour
             evopice.SetActive(true);
             instanpice.SetActive(false);
         pawnbutton.SetActive(false);
-    
     }
     public void InstanPice()
     {
