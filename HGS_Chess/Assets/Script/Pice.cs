@@ -23,13 +23,18 @@ public class Pice : MonoBehaviour
     public List<GameObject> chessmPrefabs;
     private List<GameObject> activeChessm = new List<GameObject>();
 
-    private Quaternion wite_A = Quaternion.Euler(270, 0, 0);
+    private Quaternion wite_A = Quaternion.Euler(270, 0, 0);//白駒の角度調整
     private Quaternion orientation = Quaternion.Euler(270, 180, 0);//黒駒角度調整
     bool hasAtleastOneMove = false;
     public bool isWiteTurn = true;  //白駒のターンならture黒駒ならfalse
     public int X;   //チェス盤の横軸長さ
     public int Y;   //チェス盤の縦軸の長さ
+    private int xpos, ypos;//進化元のオブジェクトの座標
+    GameObject destryobj;//進化元のオブジェクト
 
+    Fade_trun fade; //自分のターンと相手のターンのフェード
+
+    //UI
     public Text tex;
     public Text Player1_cos;    //プレイヤー1コストのテキスト
     public Text Player2_cos;    //プレイヤー2コストのテキスト
@@ -38,17 +43,11 @@ public class Pice : MonoBehaviour
     private int P2_cos;//プレイヤー2のコスト
     private int maxcos = 5;//コストの最大値
     public  int trun=1;//ターン数
-    Fade_trun fade; //自分のターンと相手のターンのフェード
-
     public GameObject but;     //進化ボタン
     public GameObject evopice;  //進化先のピースのボタン
     public GameObject instanpice;//生成のボタン
     public GameObject pawnbutton;//ポーンのボタン
     public GameObject syouhai;
-
-    int xpos, ypos;//進化元のオブジェクトの座標
-    GameObject destryobj ;//進化元のオブジェクト
-    //GameObject tag;//進化元のオブジェクトのタグを取得するためのもの
     //=====================================================
 
     //※青木追加===========================================
@@ -102,7 +101,7 @@ public class Pice : MonoBehaviour
                     }
                         
                 }
-            }         
+            }
         }      
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
@@ -359,9 +358,9 @@ public class Pice : MonoBehaviour
     //進化ボタンを押したときの処理
     public void Evolution_Button()
     {
-            but.SetActive(false);
-            evopice.SetActive(true);
-            instanpice.SetActive(false);
+        but.SetActive(false);
+        evopice.SetActive(true);
+        instanpice.SetActive(false);
         pawnbutton.SetActive(false);
     
     }
@@ -383,6 +382,7 @@ public class Pice : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
         {
+           // Debug.Log(hit.collider.gameObject == isWiteTurn);
             if (trun >= 3)
             {
                 but.SetActive(true);//進化ボタンを表示する
@@ -390,6 +390,7 @@ public class Pice : MonoBehaviour
                 instanpice.SetActive(false);
                 pawnbutton.SetActive(false);
             }
+
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
             destryobj = hit.collider.gameObject;//進化元のオブジェクト取得
@@ -409,19 +410,21 @@ public class Pice : MonoBehaviour
                 instanpice.SetActive(false);
            
         }
+        
     }
 
     //駒の進化===================================================================================-
     public void PiceEvolution_Knight()//ナイトの進化処理
     {
-        if (isWiteTurn && P1_cos >= 2 && destryobj.tag == "Wite")
+        if (isWiteTurn && destryobj.tag == "Wite"&& P1_cos >= 2 )
         {           
                 Destroy(destryobj);
                 PiceCreat(4, xpos, ypos);   //knight生成
                 P1_cos = P1_cos - 2;
                 Player1_cos.text = P1_cos.ToString();            
         }
-        else if (!isWiteTurn && P2_cos >= 2 && destryobj.tag == "Black")
+       
+        if (!isWiteTurn && destryobj.tag == "Black" && P2_cos >= 2 )
         {
                 Destroy(destryobj);
                 PiceCreat(10, xpos,  ypos);   //knight生成
@@ -498,7 +501,6 @@ public class Pice : MonoBehaviour
             P2_cos = P2_cos - 1;
             Player2_cos.text = P2_cos.ToString();
         }
-        pawnbutton.SetActive(false);
     }
     private void EndSern()//強制的にシーンを移動させる
     {

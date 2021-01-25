@@ -30,10 +30,12 @@ public class Fade_trun : MonoBehaviour
         {
             Qtext.color = new Color(0, 0, 1, a_color);
         }     
+
         if (flag_G)
             a_color -= time;
         else
             a_color += time;
+
         if (a_color < 0)
         {
             a_color = 0;
