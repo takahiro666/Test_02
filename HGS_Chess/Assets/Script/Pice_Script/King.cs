@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class King : Move
 {
     public int hp = 3;
     public int at = 1;
-    Pice Pos;
+    OnlinePice Pos;
+    private PhotonView photonView = null;
+
+     void Awake()
+    {
+        photonView = GetComponent<PhotonView>(); 
+    }
     public override bool[,] PossibleMove()
     {
-        Pos = GameObject.Find("gamelot").GetComponent<Pice>();
-        
+        Pos = GameObject.Find("gamelot").GetComponent<OnlinePice>();
+       // Pos = GameObject.Find("gamelot").GetComponent<Pice>();
+
         bool[,] r = new bool[Pos.X, Pos.Y];
         Move c;
         int i, j;
@@ -20,14 +29,16 @@ public class King : Move
         j = CurrentY + 1;
         if(CurrentY != 6)
         {
-            c = Pice.Instance.moves[CurrentX, CurrentY + 1];
+            c = OnlinePice.Instance.moves[CurrentX, CurrentY + 1];
+            //c = Pice.Instance.moves[CurrentX, CurrentY + 1];
             if (c == null)
                 r[CurrentX , CurrentY + 1] = true;
             else if (isWhite != c.isWhite)
                 r[CurrentX , CurrentY + 1] = true;
             if (CurrentX!=0)//左上表示
             {
-                c = Pice.Instance.moves[CurrentX-1, CurrentY + 1];
+                c = OnlinePice.Instance.moves[CurrentX-1, CurrentY + 1];
+                //c = Pice.Instance.moves[CurrentX-1, CurrentY + 1];
                 if (c == null)
                     r[CurrentX-1, CurrentY + 1] = true;
                 else if (isWhite != c.isWhite)
@@ -35,7 +46,8 @@ public class King : Move
             }
             if(CurrentX!=Pos.X-1)
             {
-                c = Pice.Instance.moves[CurrentX+1, CurrentY + 1];
+                c = OnlinePice.Instance.moves[CurrentX+1, CurrentY + 1];
+                //c = Pice.Instance.moves[CurrentX+1, CurrentY + 1];
                 if (c == null)
                     r[CurrentX+1, CurrentY + 1] = true;
                 else if (isWhite != c.isWhite)
@@ -51,14 +63,16 @@ public class King : Move
         j = CurrentY - 1;
         if (CurrentY != 0)
         {
-            c = Pice.Instance.moves[CurrentX, CurrentY - 1];
+            c = OnlinePice.Instance.moves[CurrentX, CurrentY - 1];
+            //c = Pice.Instance.moves[CurrentX, CurrentY - 1];
             if (c == null)
                 r[CurrentX, CurrentY - 1] = true;
             else if (isWhite != c.isWhite)
                 r[CurrentX, CurrentY - 1] = true;
             if (CurrentX != 0)//左上表示
             {
-                c = Pice.Instance.moves[CurrentX - 1, CurrentY - 1];
+                c = OnlinePice.Instance.moves[CurrentX - 1, CurrentY - 1];
+               // c = Pice.Instance.moves[CurrentX - 1, CurrentY - 1];
                 if (c == null)
                     r[CurrentX - 1, CurrentY - 1] = true;
                 else if (isWhite != c.isWhite)
@@ -66,7 +80,8 @@ public class King : Move
             }
             if (CurrentX != Pos.X - 1)
             {
-                c = Pice.Instance.moves[CurrentX + 1, CurrentY - 1];
+                c = OnlinePice.Instance.moves[CurrentX + 1, CurrentY - 1];
+                //c = Pice.Instance.moves[CurrentX + 1, CurrentY - 1];
                 if (c == null)
                     r[CurrentX + 1, CurrentY - 1] = true;
                 else if (isWhite != c.isWhite)
@@ -77,7 +92,8 @@ public class King : Move
         //左(真ん中)
         if(CurrentX != 0)
         {
-            c = Pice.Instance.moves[CurrentX -1, CurrentY];
+            c = OnlinePice.Instance.moves[CurrentX -1, CurrentY];
+            //c = Pice.Instance.moves[CurrentX -1, CurrentY];
             if (c == null)
                 r[CurrentX - 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
@@ -87,7 +103,8 @@ public class King : Move
         //右(真ん中)
         if (CurrentX != 6)
         {
-            c = Pice.Instance.moves[CurrentX +1, CurrentY];
+            c = OnlinePice.Instance.moves[CurrentX +1, CurrentY];
+            //c = Pice.Instance.moves[CurrentX +1, CurrentY];
             if (c == null)
                 r[CurrentX + 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
@@ -95,5 +112,9 @@ public class King : Move
         }
 
         return r;
+    }
+    void Update()
+    {
+       // if (!photonView.IsMine) return; 
     }
 }
