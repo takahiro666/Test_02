@@ -34,6 +34,9 @@ public class Pice : MonoBehaviour
 
     Fade_trun fade; //自分のターンと相手のターンのフェード
 
+    public GameObject  king,king1;
+    public bool flag = false;
+
     //UI
     public Text tex;
     public Text Player1_cos;    //プレイヤー1コストのテキスト
@@ -71,7 +74,7 @@ public class Pice : MonoBehaviour
         Instance = this;
         //==============
         SpawnAllChess();
-       // Debug.Log(trun + "ターン目");
+        // Debug.Log(trun + "ターン目");
     }
 
     void Update()
@@ -102,7 +105,7 @@ public class Pice : MonoBehaviour
                         
                 }
             }
-        }      
+        }
     }
     //レイを作成しコライダーに当たったら色を変える==============================================================================
     private void UpdateSlection()
@@ -169,7 +172,6 @@ public class Pice : MonoBehaviour
 
         if (moves[x, y].isWhite != isWiteTurn)
             return;
-            
         allowedMoves = moves[x, y].PossibleMove();
         for (int i = 0; i < X; i++)
             for (int j = 0; j < Y; j++)
@@ -177,6 +179,11 @@ public class Pice : MonoBehaviour
                     hasAtleastOneMove = true;
         selectedChess = moves[x, y];
         BoarHi.Instance.HighlightAllowedMoves(allowedMoves);    //駒の行動範囲にPlaneを生成
+            if (Input.GetMouseButtonDown(0)&&king)
+            {
+                but.SetActive(false);
+                Debug.Log("s");
+            }
     }
 
     //選択した駒を動かす=================================================================
@@ -319,7 +326,6 @@ public class Pice : MonoBehaviour
     {
         if (isWiteTurn)
         {
-
             tex.color = new Color(1, 0, 0, 1);
             tex.text = "Player1のターン";
 

@@ -2833,6 +2833,8 @@ MonoBehaviour:
   isWiteTurn: 1
   X: 7
   Y: 7
+  king: {fileID: 6916429866724264829, guid: 4c101c31f1057534189cc0380ffcd75f, type: 3}
+  king1: {fileID: 6230797303732894936, guid: e8826ca55ac11384796ea46103e01ab8, type: 3}
   tex: {fileID: 321871115}
   Player1_cos: {fileID: 896630052}
   Player2_cos: {fileID: 586369641}

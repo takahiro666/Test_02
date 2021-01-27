@@ -11,11 +11,14 @@ public class King : Move
     public override bool[,] PossibleMove()
     {
         Pos = GameObject.Find("gamelot").GetComponent<Pice>();
-       // Pos = GameObject.Find("gamelot").GetComponent<Pice>();
+        // Pos = GameObject.Find("gamelot").GetComponent<Pice>();
 
         bool[,] r = new bool[Pos.X, Pos.Y];
         Move c;
         int i, j;
+
+        GetComponent<Pice>();
+        
 
         // Top side
         i = CurrentX - 1;
