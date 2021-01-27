@@ -14,7 +14,7 @@ public abstract class Move : MonoBehaviour
     private void Start()
     {
         Pos = GameObject.Find("gamelot").GetComponent<Pice>();
-        Debug.Log("動く");
+        //Debug.Log("動く");
     }
 
     public void SetPosition(int x,int y)
