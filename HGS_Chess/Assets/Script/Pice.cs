@@ -61,7 +61,7 @@ public class Pice : MonoBehaviour
 
     private void Start()
     {
-        fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
+        //fade = GameObject.Find("Canvas").GetComponent<Fade_trun>();
         P1_cos = 1;   //プレイヤー１のターン数
         Player1_cos.text =P1_cos.ToString();//プレイヤー１のターン数をtextに表示
         but.SetActive(false);//進化ボタンを非表示にする
@@ -81,7 +81,7 @@ public class Pice : MonoBehaviour
     {
         UpdateSlection();
         DrawChess();
-        fade.Change();
+        //fade.Change();
         //進化フェーズの処理
         if (Input.GetMouseButtonDown(0))
         {
@@ -229,7 +229,7 @@ public class Pice : MonoBehaviour
             trun++;
             isWiteTurn = !isWiteTurn; //白と黒のターン入れ替え
             ChangeTurn();
-            fade.Qtext.enabled = true;//表示
+            //fade.Qtext.enabled = true;//表示
             //Debug.Log(trun + "ターン目");
             //Debug.Log("黒のターン"+isWiteTurn);
 
