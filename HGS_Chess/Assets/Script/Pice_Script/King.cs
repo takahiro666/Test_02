@@ -7,6 +7,7 @@ public class King : Move
     public int hp = 3;
     public int at = 1;
     Pice Pos;
+    public bool isking;
 
     public override bool[,] PossibleMove()
     {

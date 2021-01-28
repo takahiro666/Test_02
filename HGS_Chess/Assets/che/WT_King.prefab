@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6230797303732894937}
   - component: {fileID: -3477718673393579200}
   - component: {fileID: -1398553105380266044}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: WT_King
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,6 +125,7 @@ MonoBehaviour:
   isWhite: 1
   hp: 3
   at: 1
+  isking: 1
 --- !u!1001 &6428523287732426215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,9 +133,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6230797303732894932}
     m_Modifications:
+    - target: {fileID: 100000, guid: 53d818fe21816488e931816bd69d501e, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 53d818fe21816488e931816bd69d501e, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 100004, guid: 53d818fe21816488e931816bd69d501e, type: 3}
       propertyPath: m_Name
       value: Eff_Aura_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 53d818fe21816488e931816bd69d501e, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 53d818fe21816488e931816bd69d501e, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 53d818fe21816488e931816bd69d501e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -317,6 +334,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: 1P_eff_magiccircle
+      objectReference: {fileID: 0}
+    - target: {fileID: 682815462233660434, guid: 40b8ec27a7d1aa548ae82bb621a142c7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 682815462574400122, guid: 40b8ec27a7d1aa548ae82bb621a142c7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 682815462595566333, guid: 40b8ec27a7d1aa548ae82bb621a142c7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 682815463777842473, guid: 40b8ec27a7d1aa548ae82bb621a142c7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 682815463844962507, guid: 40b8ec27a7d1aa548ae82bb621a142c7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40b8ec27a7d1aa548ae82bb621a142c7, type: 3}

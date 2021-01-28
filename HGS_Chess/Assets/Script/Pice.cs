@@ -68,7 +68,7 @@ public class Pice : MonoBehaviour
         evopice.SetActive(false);
         instanpice.SetActive(false);
         pawnbutton.SetActive(false);
-        syouhai.SetActive(false);
+        syouhai.SetActive(false); 
         ChangeTurn();
         //==============
         Instance = this;
@@ -97,12 +97,12 @@ public class Pice : MonoBehaviour
                 {
                     //駒が動かせる状態か
                     MoveChess(selectionX, selectionY);
-                    if (trun >= 3)
+                    if(trun < 3 )
                     {
-                         but.SetActive(false);
-                        instanpice.SetActive(false);                            
+                        instanpice.SetActive(false);
+                        evopice.SetActive(false);
+                        but.SetActive(false);
                     }
-                        
                 }
             }
         }
@@ -179,10 +179,9 @@ public class Pice : MonoBehaviour
                     hasAtleastOneMove = true;
         selectedChess = moves[x, y];
         BoarHi.Instance.HighlightAllowedMoves(allowedMoves);    //駒の行動範囲にPlaneを生成
-            if (Input.GetMouseButtonDown(0)&&king)
+            if (Input.GetMouseButtonDown(0) && king && king1)
             {
                 but.SetActive(false);
-                Debug.Log("s");
             }
     }
 
@@ -386,9 +385,8 @@ public class Pice : MonoBehaviour
         pos.z = 10.0f;
         Ray ray = Camera.main.ScreenPointToRay(pos);
         RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")))//ここに進化元を削除する
-        {
-           // Debug.Log(hit.collider.gameObject == isWiteTurn);
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(pos), out hit, 100f, LayerMask.GetMask("Pice")) && hit.collider.gameObject != king && hit.collider.gameObject != king1)//ここに進化元を削除する
+        {  
             if (trun >= 3)
             {
                 but.SetActive(true);//進化ボタンを表示する
@@ -396,6 +394,11 @@ public class Pice : MonoBehaviour
                 instanpice.SetActive(false);
                 pawnbutton.SetActive(false);
             }
+            //else if (hit.collider.gameObject == king && hit.collider.gameObject==king1)
+            //{
+            //    but.SetActive(false);
+
+            //}
 
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
@@ -406,7 +409,7 @@ public class Pice : MonoBehaviour
         {
             xpos = (int)hit.point.x;
             ypos = (int)hit.point.z;
-            if (trun >= 3 && ypos < 1 || ypos >5)
+            if (trun > 4 && ypos < 1 || ypos >5)
             {
                 instanpice.SetActive(true);
                 evopice.SetActive(false);
@@ -415,6 +418,12 @@ public class Pice : MonoBehaviour
             else
                 instanpice.SetActive(false);
            
+        }
+        if(Physics.Raycast(Camera.main.ScreenPointToRay(pos),out hit,100f,LayerMask.GetMask("king")))
+        {
+            instanpice.SetActive(false);
+            evopice.SetActive(false);
+            but.SetActive(false);
         }
         
     }
